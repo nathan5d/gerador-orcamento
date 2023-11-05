@@ -177,9 +177,27 @@
                                         placeholder="Preço unitário">
                                 </div>
                             </div>
+
                         </div>
 
                     </div>
+
+                    <div class="field">
+                        <div class="control">
+                            <label for="discount" class="label">Desconto</label>
+                            <input type="text" class="input discount" id="discount" placeholder="Desconto" value="0"
+                                step="0.01">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="control">
+                            <label for="observations" class="label">Observações</label>
+                            <textarea class="textarea name=" id="observations" cols="30" rows="2"></textarea>
+                        </div>
+                    </div>
+
+
+
 
 
                     <div class="field is-grouped">
@@ -204,149 +222,91 @@
             <div id="items-add" class="content">
             </div>
 
+            <p>Subtotal: <span id="subtotal">R$ 0,00</span></p>
+            <p>Total: <span id="total">R$ 0,00</span></p>
 
         </div>
     </div>
 
 
     <script>
-        // Verifique se há dados no localStorage
-        if (localStorage.getItem('title')) {
-            // Recupere os dados e preencha os campos do formulário
-            document.getElementById('title').value = localStorage.getItem('title');
-        }
+        // Check if there is data in localStorage
+        const fieldsToSave = ['title', 'company', 'jobTitle', 'location', 'phone', 'cnpj', 'email'];
+        fieldsToSave.forEach(field => {
+            const element = document.getElementById(field);
+            if (localStorage.getItem(field)) {
+                element.value = localStorage.getItem(field) || '';
+            }
 
-        if (localStorage.getItem('company')) {
-            document.getElementById('company').value = localStorage.getItem('company');
-        }
-
-        if (localStorage.getItem('jobTitle')) {
-            document.getElementById('jobTitle').value = localStorage.getItem('jobTitle');
-        }
-
-        if (localStorage.getItem('location')) {
-            document.getElementById('location').value = localStorage.getItem('location');
-        }
-
-        if (localStorage.getItem('phone')) {
-            document.getElementById('phone').value = localStorage.getItem('phone');
-        }
-
-        if (localStorage.getItem('Cnpj')) {
-            document.getElementById('cnpj').value = localStorage.getItem('Cnpj');
-        }
-
-        if (localStorage.getItem('email')) {
-            document.getElementById('email').value = localStorage.getItem('email');
-        }
-
-
-        // Adicione um ouvinte de eventos 'input' para os campos do formulário
-        document.getElementById('title').addEventListener('input', function () {
-            localStorage.setItem('title', this.value);
+            element.addEventListener('input', function () {
+                localStorage.setItem(field, this.value);
+            });
         });
 
-        document.getElementById('company').addEventListener('input', function () {
-            localStorage.setItem('company', this.value);
-        });
-
-        document.getElementById('jobTitle').addEventListener('input', function () {
-            localStorage.setItem('jobTitle', this.value);
-        });
-
-        document.getElementById('location').addEventListener('input', function () {
-            localStorage.setItem('location', this.value);
-        });
-
-        document.getElementById('phone').addEventListener('input', function () {
-            localStorage.setItem('phone', this.value);
-        });
-
-        document.getElementById('cnpj').addEventListener('input', function () {
-            localStorage.setItem('Cnpj', this.value);
-        });
-
-        document.getElementById('email').addEventListener('input', function () {
-            localStorage.setItem('email', this.value);
-        });
-
-
-
-        // Configure a máscara de input para o campo de preço unitário
-        Inputmask('currency', {
+        // Set up input masks for price unit and discount fields
+        const inputMaskOptions = {
             alias: 'numeric',
             radixPoint: ',',
             groupSeparator: '.',
             autoUnmask: true,
-        }).mask(document.getElementById('item-price-unit'));
+        };
+        ['item-price-unit', 'discount'].forEach(fieldId => {
+            Inputmask('currency', inputMaskOptions).mask(document.getElementById(fieldId));
+        });
 
-
-
-
-
-        // Declare uma lista de itens de serviço
-        var serviceItems = [];
+        // Declare a list of service items
+        const serviceItems = [];
 
         document.getElementById('add-item').addEventListener('click', function () {
+            const description = document.getElementById('item-description').value;
+            const quantity = parseFloat(document.getElementById('item-quantity').value) || 0;
+            const priceUnit = parseFloat(document.getElementById('item-price-unit').value.replace(/[,.]/g, '')) / 100 || 0;
 
-            // Obtenha os valores dos campos de descrição, quantidade e preço
-            var description = document.getElementById('item-description').value;
-            var quantity = parseFloat(document.getElementById('item-quantity').value) || 0;
-            // Remova qualquer formatação da máscara (vírgulas e pontos) e converta para um valor numérico
-            //var priceUnit = parseFloat(document.getElementById('item-price-unit').value) || 0;
-            //var priceUnit = parseFloat(Inputmask.unmaskedvalue(document.getElementById('item-price-unit'))) / 100 || 0;
-            // Remova vírgulas e pontos da máscara do preço unitário
-            var priceUnit = parseFloat(document.getElementById('item-price-unit').value.replace(/[,.]/g, '')) / 100 || 0;
-
-            if (description.length < 3 && !quantity && !priceUnit > 0) {
-                alert('Preencha os detalhes do serviço/produto');
-                return
+            if (description.length < 3 || !quantity || priceUnit <= 0) {
+                alert('Please fill in service/product details');
+                return;
             }
-            // Crie um objeto para representar um item de serviço
-            var serviceItem = {
+
+            const serviceItem = {
                 description: description,
                 quantity: quantity,
                 priceUnit: priceUnit
             };
 
-            // Adicione o objeto à lista de itens de serviço
             serviceItems.push(serviceItem);
 
-            // Limpe os campos para adicionar um novo item
             document.getElementById('item-description').value = '';
             document.getElementById('item-quantity').value = '';
             document.getElementById('item-price-unit').value = '';
 
-            // Atualize a exibição da lista de itens no formulário
             updateServiceItemsList();
+            //updateTotal(parseFloat(document.getElementById('discount').value.replace(',', '.')));
+            updateTotal(parseFloat(document.getElementById('discount').value.replace(',', '.')));
         });
 
-
         function updateServiceItemsList() {
-            var itemsContainer = document.getElementById('items-add');
-            itemsContainer.innerHTML = ''; // Limpe o conteúdo atual
+            const itemsContainer = document.getElementById('items-add');
+            itemsContainer.innerHTML = '';
 
-            // Percorra a lista de itens de serviço e crie uma linha para cada item
             serviceItems.forEach(function (item, index) {
-                var listContainer = document.createElement('ul');
-                var listItem = document.createElement('li');
-                var itemInfo = document.createElement('div');
+                const listContainer = document.createElement('ul');
+                const listItem = document.createElement('li');
+                const itemInfo = document.createElement('div');
                 itemInfo.innerHTML = `
-            <strong>#</strong> ${index + 1}<br>
-            <strong>Descrição:</strong> ${item.description}<br>
-            <strong>Quantidade:</strong> ${item.quantity}<br>
-            <strong>Preço Unitário:</strong> ${item.priceUnit.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}<br>
-            <strong>Preço Total:</strong> ${(item.quantity * item.priceUnit).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}<br>
-        `;
+                <strong>#</strong> ${index + 1}<br>
+                <strong>Descrição:</strong> ${item.description}<br>
+                <strong>Quantidade:</strong> ${item.quantity}<br>
+                <strong>Preço Unitário:</strong> ${item.priceUnit.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}<br>
+                <strong>Preço Total:</strong> ${(item.quantity * item.priceUnit).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}<br>
+            `;
 
-                var removeButton = document.createElement('button');
+                const removeButton = document.createElement('button');
                 removeButton.innerHTML = 'Remover';
                 removeButton.className = 'ui button is-danger';
                 removeButton.addEventListener('click', function () {
-                    // Remova o item da lista quando o botão "Remover" for clicado
                     serviceItems.splice(index, 1);
-                    // Atualize a exibição da lista de itens
                     updateServiceItemsList();
+                    updateTotal(parseFloat(document.getElementById('discount').value.replace(',', '.')));
                 });
 
                 listItem.appendChild(itemInfo);
@@ -356,45 +316,57 @@
             });
         }
 
+        function updateTotal(discount) {
+            var totalValues = calculateTotal(serviceItems, discount);
+            document.getElementById('subtotal').textContent = totalValues.subtotal;
+            document.getElementById('total').textContent = totalValues.total;
+        }
 
+        function calculateTotal(items, discount, log = '') {
 
+            console.log(discount, log);
+            let subtotal = 0;
+            for (let i = 0; i < items.length; i++) {
+                subtotal += items[i].quantity * items[i].priceUnit;
+            }
 
+            const total = subtotal - discount;
+
+            console.log(total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }), log);
+
+            return {
+                subtotal: subtotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }),
+                total: total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+            };
+        }
 
         document.getElementById('export-button').addEventListener('click', function () {
-            // Obtenha os dados do formulário
-            var formData = new FormData(document.getElementById('pdf-form'));
-            var budgetData = Object.fromEntries(formData);
-
-
+            const formData = new FormData(document.getElementById('pdf-form'));
+            const budgetData = Object.fromEntries(formData);
 
             if (serviceItems.length === 0) {
-                alert('Adicione algum serviço/produto');
-                return
-
+                alert('Please add some service/product items');
+                return;
             }
-/*
-            // Defina os campos que você deseja converter em maiúsculas
-            var fieldsToUppercase = ['title', 'company', 'jobTitle', 'location', 'Cnpj', 'email'];
 
-            // Use um loop (foreach) para percorrer os campos e convertê-los em maiúsculas
-            fieldsToUppercase.forEach(function (field) {
-                if (budgetData[field]) {
-                    budgetData[field] = budgetData[field].toUpperCase();
-                }
-            });
-*/ano// Use um loop for...in para percorrer as propriedades do objeto
-            for (var key in budgetData) {
-                if (budgetData.hasOwnProperty(key)) {
-                    // Verifique se a propriedade pertence ao objeto (não é herdada)
-                    var value = budgetData[key];
-                    if (typeof value === 'string') {
-                        // Verifique se o valor é uma string
-                        budgetData[key] = value.toUpperCase();
-                    }
+            var totalValues = {
+                discount: 0
+            }; // Inicialize o valor de desconto
+
+
+            const budgetObservations = document.getElementById('observations').value;
+
+            //budgetData.observations = document.getElementById('observations').value;
+            const budgetDiscount = parseFloat(document.getElementById('discount').value.replace(',', '.')) || 0;
+            budgetData.discount = budgetDiscount.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+            for (const key in budgetData) {
+                if (budgetData.hasOwnProperty(key) && typeof budgetData[key] === 'string') {
+                    budgetData[key] = budgetData[key].toUpperCase();
                 }
             }
-            // Adicione os itens da lista de serviço aos dados do orçamento
-            budgetData.items = serviceItems.map(function (item) {
+
+            budgetData.items = serviceItems.map(item => {
                 return {
                     description: item.description,
                     quantity: item.quantity,
@@ -403,153 +375,58 @@
                 };
             });
 
+            console.log(budgetData);
+            const dataAtual = new Date();
+            const dia = String(dataAtual.getDate()).padStart(2, '0');
+            const mes = String(dataAtual.getMonth() + 1).padStart(2, '0');
+            const ano = dataAtual.getFullYear();
+            const hora = String(dataAtual.getHours()).padStart(2, '0');
+            const minutos = String(dataAtual.getMinutes()).padStart(2, '0');
+            const segundos = String(dataAtual.getSeconds()).padStart(2, '0');
+            const dataFormatada = `${dia}/${mes}/${ano}`;
+            const dataFormatadaHoras = `${dia}/${mes}/${ano} ${hora}:${minutos}:${segundos}`;
 
-            /* Salvar dados no localStorage
-            localStorage.setItem('company', budgetData.company);
-            localStorage.setItem('title', budgetData.title);
-            localStorage.setItem('phone', budgetData.phone);
-            localStorage.setItem('Cnpj', budgetData.cnpj);
-            localStorage.setItem('email', budgetData.email);
-            ///*/
+            //var totalValues = calculateTotal(serviceItems, budgetData.discount);
 
-            // Obtenha a data atual
-            var dataAtual = new Date();
-
-            // Formate a data em uma string legível
-            var dia = String(dataAtual.getDate()).padStart(2, '0');
-            var mes = String(dataAtual.getMonth() + 1).padStart(2, '0'); // Mês começa do zero, adicione 1
-            var ano = dataAtual.getFullYear();
-
-            var hora = String(dataAtual.getHours()).padStart(2, '0');
-            var minutos = String(dataAtual.getMinutes()).padStart(2, '0');
-            var segundos = String(dataAtual.getSeconds()).padStart(2, '0');
-
-            var dataFormatada = `${dia}/${mes}/${ano}`;
-            var dataFormatadaHoras = `${dia}/${mes}/${ano} ${hora}:${minutos}:${segundos}`;
-
-            //console.log(dataFormatada); // Saída: "04/11/2023 14:30:15"
-
-            // Defina um estilo para o PDF
-            var styles = {
-                linePrimary: {
-                    lineColor: '#5b71eb'
-                },
-                darkText: {
-                    color: "#333",
-                },
-                cPrimary: {
-                    color: "#5b71eb",
-                },
-                cSecondary: {
-                    color: '#7dae4f',
-                },
-                header: {
-                    color: "#5b71eb",
-                    fontSize: 28,
-                    bold: true,
-                    margin: [0, 10, 0, 10]
-                },
-                subheader: {
-                    color: "#5b71eb",
-                    fontSize: 16,
-                    bold: true,
-                    margin: [0, 10, 0, 10],
-                },
-                item: {
-                    margin: [0, 5, 0, 5]
-                },
-                total: {
-                    bold: true,
-                    margin: [0, 10, 0, 10]
-                }
-            };
-
-            // Função para calcular o total com base nos preços totais dos itens
-            function calculateTotal(items) {
-                var total = 0;
-                for (var i = 0; i < items.length; i++) {
-                    var priceTotal = parseFloat(items[i].priceTotal.replace('R$', '').replace('.', '').replace(',', '.')) || 0;
-                    if (!isNaN(priceTotal)) {
-                        total += priceTotal;
-                    }
-                }
-                return total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-            }
+            var totalValues = calculateTotal(serviceItems, budgetDiscount, 'export'); // Calcular o total aqui
 
 
-            // Crie um documento PDF
+
+            console.log(totalValues.subtotal, totalValues.subtotal);
             var docDefinition = {
                 content: [
-                    /*{
- 
-                        text: [
-                            //budgetData.title + '\n',
-                            { text: budgetData.company + '\n', style: "header", fontSize: 32, bold: true, alignment: "center", color: '#333' },
-                            { text: 'ELETRICISTA' + '\n', style: 'subheader', fontSize: 12, bold: false, alignment: "center", color: '#333' },
-                        ]
-                    },
                     {
-                        text: "",
-                        style: "subheader"
-                    },
-                    {
- 
-                        text: [
-                            //budgetData.title + '\n',
-                            { text: budgetData.title + '\n', style: "header", fontSize: 24, bold: true, alignment: "center" },
-                            { text: 'SERVIÇOS ELÉTRICOS', style: 'subheader', fontSize: 12, bold: false, alignment: "center" },
-                        ]
-                    },
-                    {
-                        text: "",
-                        style: "subheader"
-                    },*/
-                    {
-
-
                         columns: [
-
                             {
                                 text: [
-                                    //budgetData.title + '\n',
                                     { text: budgetData.company + '\n', style: ['header', 'darkText'], fontSize: 32, bold: true, alignment: "left" },
                                     { text: budgetData.jobTitle, style: ['subheader', 'darkText'], fontSize: 12, bold: false, alignment: "left" },
                                 ]
-                                //  text: budgetData.company, style: "header", fontSize: 32, bold: true, alignment: "left", color: '#333' },
                             },
-
                             {
-
                                 text: [
-                                    //budgetData.title + '\n',
                                     { text: budgetData.title + '\n', style: "header", fontSize: 32, bold: true, alignment: "right" },
                                     { text: 'SERVIÇOS ELÉTRICOS', style: 'subheader', fontSize: 12, bold: false, alignment: "right" },
                                 ]
-                            },
+                            }
                         ],
                     },
-
                     {
                         canvas: [
                             {
                                 type: 'line',
-                                x1: 0, // Comece na margem esquerda (10 unidades)
-                                y1: 10, // Defina a posição vertical inicial conforme necessário
-                                x2: 515, // Termine antes da margem direita (10 unidades a partir do final da página)
-                                y2: 10, // Mantenha a mesma posição vertical
-                                lineWidth: 2, // Ajuste a espessura da linha conforme necessário
+                                x1: 0,
+                                y1: 10,
+                                x2: 515,
+                                y2: 10,
+                                lineWidth: 2,
                                 lineColor: '#333'
                             }
                         ],
                     },
                     {
-                        text: " ",
+                        text: ' '
                     },
-                    /* {
-                         columns: [
-                             { text: 'SERVIÇOS ELÉTRICOS', style: 'subheader', fontSize: 12, bold: false, alignment: "center" },
-                         ]
-                     },*/
                     {
                         columns: [
                             {
@@ -560,7 +437,6 @@
                             {
                                 text: [
                                     { text: 'Data: ' + dataFormatada, alignment: "right", fontSize: 12 },
-                                    // { text: dataFormatada, alignment: "right" }
                                 ]
                             }
                         ],
@@ -601,41 +477,103 @@
                     {
                         table: {
                             headerRows: 1,
-                            widths: ['auto', '*', 80, 80, 80], // Defina larguras das colunas
+                            widths: ['auto', '*', 80, 80, 80],
                             body: [
-                                ["#", "Descrição do serviço", "Quantidade", "Preço Unitário", "Preço Total"], // Atualização dos cabeçalhos
-                                ...budgetData.items.map((item, index) => [index + 1, item.description, item.quantity, item.priceUnit, item.priceTotal]) // Atualização dos itens
+                                ["#", "Descrição do serviço", "Quantidade", "Preço Unitário", "Preço Total"],
+                                ...budgetData.items.map((item, index) => [index + 1, item.description, item.quantity, item.priceUnit, item.priceTotal])
                             ]
                         },
                         layout: "lightHorizontalLines"
                     },
                     {
-                        text: "TOTAL: " + calculateTotal(budgetData.items), // Adicione uma linha de total
-                        style: "total", alignment: 'right', fontSize: 14
+                        text: "SUBTOTAL: " + totalValues.subtotal,
+                        style: "subtotal",
+                        alignment: "right",
+                        //fontSize: 14
+                    },
+
+                    {
+                        text: "DESCONTO: " + budgetData.discount,
+                        style: "discount",
+                        alignment: "right",
+                        //fontSize: 14
+                    },
+                    {
+                        text: "TOTAL: " + totalValues.total,
+                        style: "total",
+                        alignment: "right",
+                        //fontSize: 14
+                    },
+
+                    {
+                        text: "Observações:",
+                        alignment: "center",
+                        color:'#444',
+                        margin: [0, 10, 0, 5],
+                        //fontSize: 14
+                    },
+                    {
+                        text: budgetObservations,
+                        alignment: "center",
+                        fontSize:9,
+                        color:'#444',
+                        margin: [0, 10, 0, 10],
+                        //fontSize: 14
                     }
                 ],
                 footer: function (currentPage, pageCount) {
                     return {
                         text: [
-                            { text: budgetData.company + ' - ' + budgetData.phone + ' - ' + budgetData.email + '\n', fontSize: 9, color: '#888', alignment: 'center', },
+                            { text: budgetData.company + ' - ' + budgetData.phone + ' - ' + budgetData.email + '\n', fontSize: 9, color: '#888', alignment: 'center' },
                             { text: 'Página ' + currentPage.toString() + ' de ' + pageCount, fontSize: 8, color: '#ccc', alignment: 'center' }
-
                         ],
-
-
                     };
                 },
                 defaultStyle: {
-                    font: 'Roboto', // Use o nome da fonte que você escolheu
+                    font: 'Roboto',
                 },
-                styles: styles
+                styles: {
+                    header: {
+                        color: "#5b71eb",
+                        fontSize: 28,
+                        bold: true,
+                        margin: [0, 10, 0, 10]
+                    },
+
+                    subheader: {
+                        color: "#5b71eb",
+                        fontSize: 16,
+                        bold: true,
+                        margin: [0, 10, 0, 10],
+                    },
+                    item: {
+                        margin: [0, 5, 0, 5]
+                    },
+                    subtotal: {
+                        fontSize: 12,
+                        bold: true,
+                        margin: [0, 10, 0, 5]
+                    },
+                    discount: {
+                        fontSize: 12,
+                        color: '#7dae4f',
+                        bold: true,
+                    },
+                    total: {
+                        fontSize: 14,
+                        bold: true,
+                        margin: [0, 5, 0, 10]
+                    },
+                    darkText: {
+                        color: "#333",
+                    }
+                }
             };
 
-            // Gere o PDF
             pdfMake.createPdf(docDefinition).download("orcamento.pdf");
         });
-
     </script>
+
 </body>
 
 </html>
