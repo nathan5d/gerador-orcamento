@@ -49,7 +49,7 @@
                 que você forneça propostas profissionais com detalhes precisos e formatação elegante.
             </div>
 
-            <div id="pdf-form">
+            <form id="pdf-form">
                 <h1 class="title pt-5">Dados do orçamento</h1>
                 <p class="subtitle">
                     Forneça os dados necessários
@@ -203,7 +203,7 @@
                     <!-- Campos para os itens do orçamento serão adicionados dinamicamente -->
                 </div>
 
-            </div>
+            </form>
 
 
 
@@ -412,7 +412,7 @@
 
 
                         columns: [
-                            { text: budgetData.company, style: "header", fontSize: 24, bold: false, alignment: "left", color: '#333' },
+                            { text: budgetData.company, style: "header", fontSize: 24, bold: true, alignment: "left", color: '#333' },
 
                             {
 
@@ -495,7 +495,13 @@
                 ],
                 footer: function (currentPage, pageCount) {
                     return {
-                        text: 'Página ' + currentPage.toString() + ' de ' + pageCount, fontSize: 8, color: '#ccc', alignment: 'center'
+                        text: [
+                            { text: 'EDSON BOTTO - (67) 9 9615-7092 - botto4@hotmail.com' +'\n', fontSize: 9, color: '#888', alignment: 'center', },
+                            { text: 'Página ' + currentPage.toString() + ' de ' + pageCount, fontSize: 8, color: '#ccc', alignment: 'center' }
+
+                        ],
+
+
                     };
                 },
                 defaultStyle: {

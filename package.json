@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "live-server ./src --port=8080",
-    "watch-scss": "node-sass --watch src/scss -o ./src/assets/css --recursive",
+    "start": "live-server ./ --port=8080",
+    "watch-scss": "node-sass -w scss/ -o assets/css/ --recursive" ,
     "tsc-watch": "tsc-watch --onSuccess \"npm run start\""
   },
   "keywords": [],
