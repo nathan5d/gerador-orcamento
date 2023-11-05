@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orçamento</title>
+    <!-- Inclua os arquivos CSS do Semantic UI -->
+    <link rel="stylesheet" type="text/css" href="vendor/semantic-ui-css/semantic.min.css">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script src="vendor/semantic-ui-css/semantic.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/pdfmake.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/vfs_fonts.js"></script>
+
+    <!-- Adicione a biblioteca Inputmask -->
+    <script src="https://cdn.jsdelivr.net/npm/inputmask"></script>
+    <link rel="stylesheet" href="/assets/css/style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+    <div class="ui container">
+
+        <h1 class="ui header">Formulário de Orçamento</h1>
+        <form id="pdf-form" class="ui form">
+            <h2 class="ui dividing header">Dados do Orçamento</h2>
+            <div class="field">
+                <label for="title">Título:</label>
+                <input type="text" id="title" name="title" value="ORÇAMENTO" required>
+            </div>
+            <div class="field">
+                <label for="company">Empresa:</label>
+                <input type="text" id="company" name="company" value="EDSON BOTTO" required>
+            </div>
+            <div class="field">
+                <label for="jobTitle">Cargo:</label>
+                <input type="text" id="jobTitle" name="jobTitle" value="ELETRICISTA" required>
+            </div>
+            <div class="field">
+                <label for="location">Localização:</label>
+                <input type="text" id="location" name="location" value="NOVA ANDRADINA - MS" required>
+            </div>
+            <div class="field">
+                <label for="email">E-mail:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="field">
+                <label for="phone">Telefone:</label>
+                <input type="text" id="phone" name="phone" required>
+            </div>
+            <div class="field">
+                <label for="cnpj">CNPJ:</label>
+                <input type="text" id="cnpj" name="cnpj" value="JESSICA ROBERTA SUCI BOTTO - CNPJ: 49.608.970/0001-63"
+                    required>
+            </div>
+            <h2 class="ui dividing header">Proposta para</h2>
+            <div class="field">
+                <label for="proposalFor">Nome da empresa:</label>
+                <input type="text" id="proposalFor" name="proposalFor" value="BANCO DO BRASIL SA" required>
+            </div>
+            <div class="field">
+                <label for="proposalCPFCNPJ">CPF/CNPJ:</label>
+                <input type="text" id="proposalCPFCNPJ" name="proposalCPFCNPJ" value="00.000.000/0728-50" required>
+            </div>
+            <div class="field">
+                <label for="proposalLocation">Localização:</label>
+                <input type="text" id="proposalLocation" name="proposalLocation"
+                    value="Av. Antônio J.de Moura Andrade, 1400" required>
+            </div>
+            <div class="field">
+                <label for="proposalEmail">E-mail:</label>
+                <input type="email" id="proposalEmail" name="proposalEmail" value="age0728@bb.com.br" required>
+            </div>
+            <div class="field">
+                <label for="proposalPhone">Telefone:</label>
+                <input type="text" id="proposalPhone" name="proposalPhone" required>
+            </div>
+            <div class="field">
+                <label for="validUntil">Válido até:</label>
+                <input type="text" id="validUntil" name="validUntil" required>
+            </div>
+            <div class="field">
+                <label for="availability">Disponibilidade:</label>
+                <input type="text" id="availability" name="availability" required>
+            </div>
+            <h2 class="ui dividing header">Itens do Orçamento</h2>
+            <div id="items-container">
+
+                <div class="field">
+                    <label for="item-description">Descrição</label>
+                    <textarea name="item-description" class="item-description" id="item-description" cols="30" rows="2"
+                        placeholder="Descrição"></textarea>
+                </div>
+                <div class="two fields">
+                    <div class="field">
+                        <label for="item-quantity">Quantidade</label>
+                        <input type="number" class="item-quantity" name="" id="item-quantity" placeholder="Quantidade">
+                    </div>
+                    <div class="field">
+                        <label for="item-price-unit">Preço Unitário</label><input type="text" class="item-price-unit"
+                            name="" id="item-price-unit" placeholder="Preço unitário">
+                    </div>
+                </div>
+
+
+                <!-- Campos para os itens do orçamento serão adicionados dinamicamente -->
+            </div>
+
+            <button type="button" id="add-item" class="ui button primary">Adicionar Item</button>
+            <button type="button" id="export-button" class="ui button positive">Gerar PDF</button>
+        </form>
+
+        <table class="ui single line table">
+            <thead>
+                <tr>
+                    <th>Descrição</th>
+                    <th>Quantidade</th>
+                    <th>Preço Unitário</th>
+                    <th>Preço Total</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody id="items-tbody">
+                <!-- Aqui serão adicionadas as linhas da tabela -->
+            </tbody>
+        </table>
+
+    </div>
+
+    <script>
+
+        // Configure a máscara de input para o campo de preço unitário
+        Inputmask('currency', {
+            alias: 'numeric',
+            radixPoint: ',',
+            groupSeparator: '.',
+            autoUnmask: true,
+        }).mask(document.getElementById('item-price-unit'));
+
+        // Declare uma lista de itens de serviço
+        var serviceItems = [];
+
+        document.getElementById('add-item').addEventListener('click', function () {
+
+            // Obtenha os valores dos campos de descrição, quantidade e preço
+            var description = document.getElementById('item-description').value;
+            var quantity = parseFloat(document.getElementById('item-quantity').value) || 0;
+            // Remova qualquer formatação da máscara (vírgulas e pontos) e converta para um valor numérico
+            //var priceUnit = parseFloat(document.getElementById('item-price-unit').value) || 0;
+            //var priceUnit = parseFloat(Inputmask.unmaskedvalue(document.getElementById('item-price-unit'))) / 100 || 0;
+            // Remova vírgulas e pontos da máscara do preço unitário
+            var priceUnit = parseFloat(document.getElementById('item-price-unit').value.replace(/[,.]/g, '')) / 100 || 0;
+
+            if (description.length < 3 && !quantity && !priceUnit > 0) {
+                alert('Preencha os detalhes do serviço/produto');
+                return
+            }
+            // Crie um objeto para representar um item de serviço
+            var serviceItem = {
+                description: description,
+                quantity: quantity,
+                priceUnit: priceUnit
+            };
+
+            // Adicione o objeto à lista de itens de serviço
+            serviceItems.push(serviceItem);
+
+            // Limpe os campos para adicionar um novo item
+            document.getElementById('item-description').value = '';
+            document.getElementById('item-quantity').value = '';
+            document.getElementById('item-price-unit').value = '';
+
+            // Atualize a exibição da lista de itens no formulário
+            updateServiceItemsList();
+        });
+
+
+        function updateServiceItemsList() {
+            var table = document.getElementById('items-table');
+            var tbody = document.getElementById('items-tbody');
+
+            // Limpe o corpo da tabela
+            tbody.innerHTML = '';
+
+            // Percorra a lista de itens de serviço e crie uma linha para cada item
+            serviceItems.forEach(function (item, index) {
+                var row = tbody.insertRow();
+
+                var descriptionCell = row.insertCell(0);
+                descriptionCell.innerHTML = item.description;
+
+                var quantityCell = row.insertCell(1);
+                quantityCell.innerHTML = item.quantity;
+
+                var priceUnitCell = row.insertCell(2);
+                priceUnitCell.innerHTML = item.priceUnit.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+                var priceTotalCell = row.insertCell(3);
+                priceTotalCell.innerHTML = (item.quantity * item.priceUnit).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+                var removeButtonCell = row.insertCell(4);
+                var removeButton = document.createElement('button');
+                removeButton.innerHTML = 'Remover';
+                removeButton.className = 'ui red button';
+                removeButton.addEventListener('click', function () {
+                    // Remova o item da lista quando o botão "Remover" for clicado
+                    serviceItems.splice(index, 1);
+                    // Atualize a exibição da lista de itens
+                    updateServiceItemsList();
+                });
+                removeButtonCell.appendChild(removeButton);
+            });
+        }
+
+        // Chame a função updateServiceItemsList inicialmente para exibir os itens existentes
+        //updateServiceItemsList();
+
+
+
+        document.getElementById('export-button').addEventListener('click', function () {
+            // Obtenha os dados do formulário
+            var formData = new FormData(document.getElementById('pdf-form'));
+            var budgetData = Object.fromEntries(formData);
+
+            if(serviceItems.length === 0){
+                alert('Adicione algum serviço/produto');
+                return
+        
+            }
+
+            // Adicione os itens da lista de serviço aos dados do orçamento
+            budgetData.items = serviceItems.map(function (item) {
+                return {
+                    description: item.description,
+                    quantity: item.quantity,
+                    priceUnit: item.priceUnit.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }),
+                    priceTotal: (item.quantity * item.priceUnit).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+                };
+            });
+
+            // Obtenha a data atual
+            var dataAtual = new Date();
+
+            // Formate a data em uma string legível
+            var dia = String(dataAtual.getDate()).padStart(2, '0');
+            var mes = String(dataAtual.getMonth() + 1).padStart(2, '0'); // Mês começa do zero, adicione 1
+            var ano = dataAtual.getFullYear();
+
+            var hora = String(dataAtual.getHours()).padStart(2, '0');
+            var minutos = String(dataAtual.getMinutes()).padStart(2, '0');
+            var segundos = String(dataAtual.getSeconds()).padStart(2, '0');
+
+            var dataFormatada = `${dia}/${mes}/${ano}`;
+            var dataFormatadaHoras = `${dia}/${mes}/${ano} ${hora}:${minutos}:${segundos}`;
+
+            //console.log(dataFormatada); // Saída: "04/11/2023 14:30:15"
+
+            // Defina um estilo para o PDF
+            var styles = {
+                cPrimary:{
+                    color: "#5b71eb",
+                },
+                header: {
+                    color: "#5b71eb",
+                    fontSize: 28,
+                    bold: true,
+                    margin: [0, 10, 0, 10]
+                },
+                subheader: {
+                    color: "#5b71eb",
+                    fontSize: 16,
+                    bold: true,
+                    margin: [0, 10, 0, 10],
+                },
+                item: {
+                    margin: [0, 5, 0, 5]
+                },
+                total: {
+                    bold: true,
+                    margin: [0, 10, 0, 10]
+                }
+            };
+
+            // Função para calcular o total com base nos preços totais dos itens
+            function calculateTotal(items) {
+                var total = 0;
+                for (var i = 0; i < items.length; i++) {
+                    var priceTotal = parseFloat(items[i].priceTotal.replace('R$', '').replace('.', '').replace(',', '.')) || 0;
+                    if (!isNaN(priceTotal)) {
+                        total += priceTotal;
+                    }
+                }
+                return total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            }
+
+
+            // Crie um documento PDF
+            var docDefinition = {
+                content: [
+                    {
+
+                        text: [
+                            //budgetData.title + '\n',
+                            { text: budgetData.company + '\n', style: "header", fontSize: 32, bold: true, alignment: "center", color: '#333' },
+                            { text: 'ELETRICISTA' + '\n', style: 'subheader', fontSize: 12, bold: false, alignment: "center", color: '#333' },
+                        ]
+                    },
+                    {
+                        text: "",
+                        style: "subheader"
+                    },
+                    {
+
+                        text: [
+                            //budgetData.title + '\n',
+                            { text: budgetData.title + '\n', style: "header", fontSize: 24, bold: true, alignment: "center" },
+                            { text: 'SERVIÇOS ELÉTRICOS', style: 'subheader', fontSize: 12, bold: false, alignment: "center" },
+                        ]
+                    },
+                    {
+                        text: "",
+                        style: "subheader"
+                    },
+                    /*{
+
+
+                        columns: [
+                            { text: budgetData.title, style: "header", fontSize: 24, bold: false, alignment: "center", color: '#333' },
+
+                             {
+ 
+                                 text: [
+                                     //budgetData.title + '\n',
+                                     { text: budgetData.company, style: "header", fontSize: 32, bold: true, alignment: "right" },
+                                     { text: 'SERVIÇOS ELÉTRICOS', style: 'subheader', fontSize: 12, bold: false, alignment: "right" },
+                                 ]
+                             },
+                        ],
+                    },
+                    {
+                        columns: [
+                            { text: 'SERVIÇOS ELÉTRICOS', style: 'subheader', fontSize: 12, bold: false, alignment: "center" },
+                        ]
+                    },*/
+                    {
+                        columns: [
+                            {
+                                text: [
+                                    { text: budgetData.location + '\n', bold: true },
+                                ]
+                            },
+                            {
+                                text: [
+                                    { text: 'Data: ' + dataFormatada, alignment: "right", fontSize: 12 },
+                                    // { text: dataFormatada, alignment: "right" }
+                                ]
+                            }
+                        ],
+                    },
+                    {
+                        columns: [
+                            {
+                                text: [
+                                    budgetData.cnpj + '\n',
+                                    { text: "Email: ", bold: true }, budgetData.email + '\n',
+                                    { text: "Telefone: ", bold: true }, budgetData.phone + '\n',
+                                ]
+                            },
+                        ],
+                    },
+                    {
+                        text: "Orçamento para:",
+                        style: "subheader"
+                    },
+                    {
+                        columns: [
+                            {
+                                text: [
+                                    { text: budgetData.proposalFor + '\n' },
+                                    { text: "CPF/CNPJ: ", bold: true }, budgetData.proposalCPFCNPJ + '\n',
+                                    { text: "Endereço: ", bold: true }, budgetData.proposalLocation + '\n',
+                                    { text: "Email: ", bold: true }, budgetData.proposalEmail + '\n',
+                                    { text: "Telefone: ", bold: true }, budgetData.proposalPhone + '\n',
+                                    { text: "CPF/CNPJ: ", bold: true }, budgetData.proposalCPFCNPJ
+                                ]
+                            },
+                        ],
+                    },
+                    {
+                        text: "Descrição:",
+                        style: "subheader"
+                    },
+                    {
+                        table: {
+                            headerRows: 1,
+                            widths: ['auto', '*', 80, 80, 80], // Defina larguras das colunas
+                            body: [
+                                ["#", "Descrição do serviço", "Quantidade", "Preço Unitário", "Preço Total"], // Atualização dos cabeçalhos
+                                ...budgetData.items.map((item, index) => [index + 1, item.description, item.quantity, item.priceUnit, item.priceTotal]) // Atualização dos itens
+                            ]
+                        },
+                        layout: "lightHorizontalLines"
+                    },
+                    {
+                        text: "SUBTOTAL: " + calculateTotal(budgetData.items), // Adicione uma linha de total
+                        style: "total", alignment:'right',fontSize:14 
+                    }
+                ],
+                footer: function (currentPage, pageCount) {
+                    return {
+                        text: 'Página ' + currentPage.toString() + ' de ' + pageCount,fontSize:8,color:'#ccc', alignment: 'center'
+                    };
+                },
+                defaultStyle: {
+                    font: 'Roboto', // Use o nome da fonte que você escolheu
+                },
+                styles: styles
+            };
+
+            // Gere o PDF
+            pdfMake.createPdf(docDefinition).download("orcamento.pdf");
+        });
+
+    </script>
+</body>
+
+</html>

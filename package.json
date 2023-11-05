@@ -1,0 +1,24 @@
+{
+  "name": "gerador-orcamentos",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "live-server ./src --port=8080",
+    "watch-scss": "node-sass --watch src/scss -o ./src/assets/css --recursive",
+    "tsc-watch": "tsc-watch --onSuccess \"npm run start\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/jquery": "^3.5.25",
+    "jspdf": "^2.5.1",
+    "typescript": "^5.2.2"
+  },
+  "devDependencies": {
+    "gulp": "^4.0.2",
+    "node-sass": "^9.0.0"
+  }
+}
