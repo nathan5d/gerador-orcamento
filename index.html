@@ -63,20 +63,19 @@
                 <div class="field">
                     <label for="company" class="label">Empresa:</label>
                     <div class="control">
-                        <input type="text" id="company" name="company" class="input"  required>
+                        <input type="text" id="company" name="company" class="input" required>
                     </div>
                 </div>
                 <div class="field">
                     <label for="jobTitle" class="label">Cargo:</label>
                     <div class="control">
-                        <input type="text" id="jobTitle" name="jobTitle" class="input"  required>
+                        <input type="text" id="jobTitle" name="jobTitle" class="input" required>
                     </div>
                 </div>
                 <div class="field">
                     <label for="location" class="label">Localização:</label>
                     <div class="control">
-                        <input type="text" id="location" name="location" class="input"
-                            required>
+                        <input type="text" id="location" name="location" class="input" required>
                     </div>
                 </div>
                 <div class="field">
@@ -94,8 +93,7 @@
                 <div class="field">
                     <label for="cnpj" class="label">CNPJ:</label>
                     <div class="control">
-                        <input type="text" id="cnpj" name="cnpj" class="input"
-                            required>
+                        <input type="text" id="cnpj" name="cnpj" class="input" required>
                     </div>
                 </div>
 
@@ -107,29 +105,25 @@
                 <div class="field">
                     <label for="proposalFor" class="label">Nome da empresa:</label>
                     <div class="control">
-                        <input type="text" id="proposalFor" name="proposalFor" class="input"
-                            required>
+                        <input type="text" id="proposalFor" name="proposalFor" class="input" required>
                     </div>
                 </div>
                 <div class="field">
                     <label for="proposalCPFCNPJ" class="label">CPF/CNPJ:</label>
                     <div class="control">
-                        <input type="text" id="proposalCPFCNPJ" name="proposalCPFCNPJ" class="input"
-                             required>
+                        <input type="text" id="proposalCPFCNPJ" name="proposalCPFCNPJ" class="input" required>
                     </div>
                 </div>
                 <div class="field">
                     <label for="proposalLocation" class="label">Localização:</label>
                     <div class="control">
-                        <input type="text" id="proposalLocation" name="proposalLocation" class="input"
-                             required>
+                        <input type="text" id="proposalLocation" name="proposalLocation" class="input" required>
                     </div>
                 </div>
                 <div class="field">
                     <label for="proposalEmail" class="label">E-mail:</label>
                     <div class="control">
-                        <input type="email" id="proposalEmail" name="proposalEmail" class="input"
-                             required>
+                        <input type="email" id="proposalEmail" name="proposalEmail" class="input" required>
                     </div>
                 </div>
                 <div class="field">
@@ -496,7 +490,7 @@
                 footer: function (currentPage, pageCount) {
                     return {
                         text: [
-                            { text: 'EDSON BOTTO - (67) 9 9615-7092 - botto4@hotmail.com' +'\n', fontSize: 9, color: '#888', alignment: 'center', },
+                            { text: budgetData.company + ' - ' + budgetData.phone + ' - ' + budgetData.email + '\n', fontSize: 9, color: '#888', alignment: 'center', },
                             { text: 'Página ' + currentPage.toString() + ' de ' + pageCount, fontSize: 8, color: '#ccc', alignment: 'center' }
 
                         ],
