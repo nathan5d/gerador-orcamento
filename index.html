@@ -210,6 +210,51 @@
 
 
     <script>
+        // Verifique se há dados no localStorage
+        if (localStorage.getItem('title')) {
+            // Recupere os dados e preencha os campos do formulário
+            document.getElementById('title').value = localStorage.getItem('title');
+        }
+
+        if (localStorage.getItem('company')) {
+            document.getElementById('company').value = localStorage.getItem('company');
+        }
+
+        if (localStorage.getItem('phone')) {
+            document.getElementById('phone').value = localStorage.getItem('phone');
+        }
+
+        if (localStorage.getItem('Cnpj')) {
+            document.getElementById('cnpj').value = localStorage.getItem('Cnpj');
+        }
+
+        if (localStorage.getItem('email')) {
+            document.getElementById('email').value = localStorage.getItem('email');
+        }
+
+
+        // Adicione um ouvinte de eventos 'input' para os campos do formulário
+        document.getElementById('title').addEventListener('input', function () {
+            localStorage.setItem('title', this.value);
+        });
+
+        document.getElementById('company').addEventListener('input', function () {
+            localStorage.setItem('company', this.value);
+        });
+
+        document.getElementById('phone').addEventListener('input', function () {
+            localStorage.setItem('phone', this.value);
+        });
+
+        document.getElementById('cnpj').addEventListener('input', function () {
+            localStorage.setItem('Cnpj', this.value);
+        });
+
+        document.getElementById('email').addEventListener('input', function () {
+            localStorage.setItem('email', this.value);
+        });
+
+
 
         // Configure a máscara de input para o campo de preço unitário
         Inputmask('currency', {
@@ -218,6 +263,10 @@
             groupSeparator: '.',
             autoUnmask: true,
         }).mask(document.getElementById('item-price-unit'));
+
+
+
+
 
         // Declare uma lista de itens de serviço
         var serviceItems = [];
@@ -315,6 +364,15 @@
                     priceTotal: (item.quantity * item.priceUnit).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
                 };
             });
+
+
+            /* Salvar dados no localStorage
+            localStorage.setItem('company', budgetData.company);
+            localStorage.setItem('title', budgetData.title);
+            localStorage.setItem('phone', budgetData.phone);
+            localStorage.setItem('Cnpj', budgetData.cnpj);
+            localStorage.setItem('email', budgetData.email);
+            ///*/
 
             // Obtenha a data atual
             var dataAtual = new Date();
