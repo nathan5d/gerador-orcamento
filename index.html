@@ -131,7 +131,7 @@
                         <input type="text" id="proposalPhone" name="proposalPhone" class="input" required>
                     </div>
                 </div>
-                <div class="field">
+                <!--<div class="field">
                     <label for="validUntil" class="label">Válido até:</label>
                     <div class="control">
                         <input type="text" id="validUntil" name="validUntil" class="input" required>
@@ -143,6 +143,7 @@
                         <input type="text" id="availability" name="availability" class="input" required>
                     </div>
                 </div>
+                -->
                 <h1 class="title pt-5">Detalhes do orçamento</h1>
                 <p class="subtitle">
                     Forneça os dados necessários
@@ -364,12 +365,34 @@
             var formData = new FormData(document.getElementById('pdf-form'));
             var budgetData = Object.fromEntries(formData);
 
+
+
             if (serviceItems.length === 0) {
                 alert('Adicione algum serviço/produto');
                 return
 
             }
+/*
+            // Defina os campos que você deseja converter em maiúsculas
+            var fieldsToUppercase = ['title', 'company', 'jobTitle', 'location', 'Cnpj', 'email'];
 
+            // Use um loop (foreach) para percorrer os campos e convertê-los em maiúsculas
+            fieldsToUppercase.forEach(function (field) {
+                if (budgetData[field]) {
+                    budgetData[field] = budgetData[field].toUpperCase();
+                }
+            });
+*/ano// Use um loop for...in para percorrer as propriedades do objeto
+            for (var key in budgetData) {
+                if (budgetData.hasOwnProperty(key)) {
+                    // Verifique se a propriedade pertence ao objeto (não é herdada)
+                    var value = budgetData[key];
+                    if (typeof value === 'string') {
+                        // Verifique se o valor é uma string
+                        budgetData[key] = value.toUpperCase();
+                    }
+                }
+            }
             // Adicione os itens da lista de serviço aos dados do orçamento
             budgetData.items = serviceItems.map(function (item) {
                 return {
@@ -408,6 +431,12 @@
 
             // Defina um estilo para o PDF
             var styles = {
+                linePrimary: {
+                    lineColor: '#5b71eb'
+                },
+                darkText: {
+                    color: "#333",
+                },
                 cPrimary: {
                     color: "#5b71eb",
                 },
@@ -479,7 +508,15 @@
 
 
                         columns: [
-                            { text: budgetData.company, style: "header", fontSize: 24, bold: true, alignment: "left", color: '#333' },
+
+                            {
+                                text: [
+                                    //budgetData.title + '\n',
+                                    { text: budgetData.company + '\n', style: ['header', 'darkText'], fontSize: 32, bold: true, alignment: "left" },
+                                    { text: budgetData.jobTitle, style: ['subheader', 'darkText'], fontSize: 12, bold: false, alignment: "left" },
+                                ]
+                                //  text: budgetData.company, style: "header", fontSize: 32, bold: true, alignment: "left", color: '#333' },
+                            },
 
                             {
 
@@ -490,6 +527,23 @@
                                 ]
                             },
                         ],
+                    },
+
+                    {
+                        canvas: [
+                            {
+                                type: 'line',
+                                x1: 0, // Comece na margem esquerda (10 unidades)
+                                y1: 10, // Defina a posição vertical inicial conforme necessário
+                                x2: 515, // Termine antes da margem direita (10 unidades a partir do final da página)
+                                y2: 10, // Mantenha a mesma posição vertical
+                                lineWidth: 2, // Ajuste a espessura da linha conforme necessário
+                                lineColor: '#333'
+                            }
+                        ],
+                    },
+                    {
+                        text: " ",
                     },
                     /* {
                          columns: [
