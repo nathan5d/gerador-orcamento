@@ -101,7 +101,6 @@
                 <p class="subtitle">
                     Forneça os dados necessários
                 </p>
-                <h2 class="title is-5">Proposta para</h2>
                 <div class="field">
                     <label for="proposalFor" class="label">Nome da empresa:</label>
                     <div class="control">
@@ -220,6 +219,14 @@
             document.getElementById('company').value = localStorage.getItem('company');
         }
 
+        if (localStorage.getItem('jobTitle')) {
+            document.getElementById('jobTitle').value = localStorage.getItem('jobTitle');
+        }
+
+        if (localStorage.getItem('location')) {
+            document.getElementById('location').value = localStorage.getItem('location');
+        }
+
         if (localStorage.getItem('phone')) {
             document.getElementById('phone').value = localStorage.getItem('phone');
         }
@@ -240,6 +247,14 @@
 
         document.getElementById('company').addEventListener('input', function () {
             localStorage.setItem('company', this.value);
+        });
+
+        document.getElementById('jobTitle').addEventListener('input', function () {
+            localStorage.setItem('jobTitle', this.value);
+        });
+
+        document.getElementById('location').addEventListener('input', function () {
+            localStorage.setItem('location', this.value);
         });
 
         document.getElementById('phone').addEventListener('input', function () {
