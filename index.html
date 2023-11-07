@@ -50,88 +50,115 @@
             </div>
 
             <form id="pdf-form">
-                <h1 class="title pt-5">Dados do orçamento</h1>
+                <h1 class="title pt-5">Dados do Emissor</h1>
                 <p class="subtitle">
                     Forneça os dados necessários
                 </p>
+
+
                 <div class="field">
-                    <label for="title" class="label">Título:</label>
+                    <div class="field-body">
+                        <div class="field">
+                            <label for="validityDate" class="label">Data de Validade</label>
+                            <div class="control">
+                                <input class="input" type="date" id="validityDate" name="validityDate">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label for="budgetNumber" class="label">Número do Orçamento</label>
+                            <div class="control">
+                                <input class="input" type="text" id="budgetNumber" name="budgetNumber"
+                                    placeholder="Número do Orçamento">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="field">
+                    <label for="title" class="label">Tipo:</label>
                     <div class="control">
                         <input type="text" id="title" name="title" class="input" value="ORÇAMENTO" required>
                     </div>
                 </div>
                 <div class="field">
-                    <label for="company" class="label">Empresa:</label>
+                    <label for="subtitle" class="label">Descrição:</label>
                     <div class="control">
-                        <input type="text" id="company" name="company" class="input" required>
+                        <input type="text" id="subtitle" name="subtitle" class="input" required>
                     </div>
-                </div>
-                <div class="field">
-                    <label for="jobTitle" class="label">Cargo:</label>
-                    <div class="control">
-                        <input type="text" id="jobTitle" name="jobTitle" class="input" required>
+                    <div class="field">
+                        <label for="company" class="label">Empresa:</label>
+                        <div class="control">
+                            <input type="text" id="company" name="company" class="input" required>
+                        </div>
                     </div>
-                </div>
-                <div class="field">
-                    <label for="location" class="label">Localização:</label>
-                    <div class="control">
-                        <input type="text" id="location" name="location" class="input" required>
+                    <div class="field">
+                        <label for="jobTitle" class="label">Cargo:</label>
+                        <div class="control">
+                            <input type="text" id="jobTitle" name="jobTitle" class="input" required>
+                        </div>
                     </div>
-                </div>
-                <div class="field">
-                    <label for="email" class="label">E-mail:</label>
-                    <div class="control">
-                        <input type="email" id="email" name="email" class="input" required>
+                    <div class="field">
+                        <label for="location" class="label">Localização:</label>
+                        <div class="control">
+                            <input type="text" id="location" name="location" class="input" required>
+                        </div>
                     </div>
-                </div>
-                <div class="field">
-                    <label for="phone" class="label">Telefone:</label>
-                    <div class="control">
-                        <input type="text" id="phone" name="phone" class="input" required>
+                    <div class="field">
+                        <label for="email" class="label">E-mail:</label>
+                        <div class="control">
+                            <input type="email" id="email" name="email" class="input" required>
+                        </div>
                     </div>
-                </div>
-                <div class="field">
-                    <label for="cnpj" class="label">CNPJ:</label>
-                    <div class="control">
-                        <input type="text" id="cnpj" name="cnpj" class="input" required>
+                    <div class="field">
+                        <label for="phone" class="label">Telefone:</label>
+                        <div class="control">
+                            <input type="text" id="phone" name="phone" class="input" required>
+                        </div>
                     </div>
-                </div>
+                    <div class="field">
+                        <label for="cnpj" class="label">CNPJ:</label>
+                        <div class="control">
+                            <input type="text" id="cnpj" name="cnpj" class="input" required>
+                        </div>
+                    </div>
 
-                <h1 class="title pt-5">Proposta para</h1>
-                <p class="subtitle">
-                    Forneça os dados necessários
-                </p>
-                <div class="field">
-                    <label for="proposalFor" class="label">Nome da empresa:</label>
-                    <div class="control">
-                        <input type="text" id="proposalFor" name="proposalFor" class="input" required>
+                    <h1 class="title pt-5">Dados do Cliente</h1>
+                    <p class="subtitle">
+                        Forneça os dados do cliente
+                    </p>
+                    <div class="field">
+                        <label for="proposalFor" class="label">Nome da empresa:</label>
+                        <div class="control">
+                            <input type="text" id="proposalFor" name="proposalFor" class="input" required>
+                        </div>
                     </div>
-                </div>
-                <div class="field">
-                    <label for="proposalCPFCNPJ" class="label">CPF/CNPJ:</label>
-                    <div class="control">
-                        <input type="text" id="proposalCPFCNPJ" name="proposalCPFCNPJ" class="input" required>
+                    <div class="field">
+                        <label for="proposalCPFCNPJ" class="label">CPF/CNPJ:</label>
+                        <div class="control">
+                            <input type="text" id="proposalCPFCNPJ" name="proposalCPFCNPJ" class="input" required>
+                        </div>
                     </div>
-                </div>
-                <div class="field">
-                    <label for="proposalLocation" class="label">Localização:</label>
-                    <div class="control">
-                        <input type="text" id="proposalLocation" name="proposalLocation" class="input" required>
+                    <div class="field">
+                        <label for="proposalLocation" class="label">Localização:</label>
+                        <div class="control">
+                            <input type="text" id="proposalLocation" name="proposalLocation" class="input" required>
+                        </div>
                     </div>
-                </div>
-                <div class="field">
-                    <label for="proposalEmail" class="label">E-mail:</label>
-                    <div class="control">
-                        <input type="email" id="proposalEmail" name="proposalEmail" class="input" required>
+                    <div class="field">
+                        <label for="proposalEmail" class="label">E-mail:</label>
+                        <div class="control">
+                            <input type="email" id="proposalEmail" name="proposalEmail" class="input" required>
+                        </div>
                     </div>
-                </div>
-                <div class="field">
-                    <label for="proposalPhone" class="label">Telefone:</label>
-                    <div class="control">
-                        <input type="text" id="proposalPhone" name="proposalPhone" class="input" required>
+                    <div class="field">
+                        <label for="proposalPhone" class="label">Telefone:</label>
+                        <div class="control">
+                            <input type="text" id="proposalPhone" name="proposalPhone" class="input" required>
+                        </div>
                     </div>
-                </div>
-                <!--<div class="field">
+                    <!--<div class="field">
                     <label for="validUntil" class="label">Válido até:</label>
                     <div class="control">
                         <input type="text" id="validUntil" name="validUntil" class="input" required>
@@ -144,76 +171,76 @@
                     </div>
                 </div>
                 -->
-                <h1 class="title pt-5">Detalhes do orçamento</h1>
-                <p class="subtitle">
-                    Forneça os dados necessários
-                </p>
-                <div id="items-container">
+                    <h1 class="title pt-5">Detalhes do orçamento</h1>
+                    <p class="subtitle">
+                        Forneça os dados necessários
+                    </p>
+                    <div id="items-container">
 
-                    <div class="field">
-                        <label for="item-description" class="label">Descrição</label>
-                        <div class="control">
-                            <textarea name="item-description" class="textarea" id="item-description" cols="30" rows="2"
-                                class="textarea" placeholder="Descrição"></textarea>
+                        <div class="field">
+                            <label for="item-description" class="label">Descrição</label>
+                            <div class="control">
+                                <textarea name="item-description" class="textarea" id="item-description" cols="30"
+                                    rows="2" class="textarea" placeholder="Descrição"></textarea>
+                            </div>
+                            <p class="help is-success">Descreva o serviço</p>
                         </div>
-                        <p class="help is-success">Descreva o serviço</p>
-                    </div>
 
 
-                    <div class="field">
-                        <div class="field-body">
-                            <div class="field ">
-                                <div class="control">
-                                    <label for="item-quantity" class="label">Quantidade</label>
-                                    <input type="number" class="input item-quantity" id="item-quantity"
-                                        placeholder="Quantidade">
+                        <div class="field">
+                            <div class="field-body">
+                                <div class="field ">
+                                    <div class="control">
+                                        <label for="item-quantity" class="label">Quantidade</label>
+                                        <input type="number" class="input item-quantity" id="item-quantity"
+                                            placeholder="Quantidade">
+                                    </div>
+
+                                </div>
+                                <div class="field">
+                                    <div class="control">
+                                        <label for="item-price-unit" class="label">Preço Unitário</label>
+                                        <input type="text" class="input item-price-unit" id="item-price-unit"
+                                            placeholder="Preço unitário">
+                                    </div>
                                 </div>
 
                             </div>
-                            <div class="field">
-                                <div class="control">
-                                    <label for="item-price-unit" class="label">Preço Unitário</label>
-                                    <input type="text" class="input item-price-unit" id="item-price-unit"
-                                        placeholder="Preço unitário">
-                                </div>
+
+                        </div>
+
+                        <div class="field">
+                            <div class="control">
+                                <label for="discount" class="label">Desconto</label>
+                                <input type="text" class="input discount" id="discount" placeholder="Desconto" value="0"
+                                    step="0.01">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="control">
+                                <label for="observations" class="label">Observações</label>
+                                <textarea class="textarea name=" id="observations" cols="30" rows="2"></textarea>
+                            </div>
+                        </div>
+
+
+
+
+
+                        <div class="field is-grouped">
+                            <div class="control">
+                                <button type="button" id="add-item" class="button is-info">Adicionar Item</button>
+                            </div>
+                            <div class="control">
+                                <button type="button" id="export-button" class="button is-success">Gerar PDF</button>
                             </div>
 
+
+
                         </div>
 
+                        <!-- Campos para os itens do orçamento serão adicionados dinamicamente -->
                     </div>
-
-                    <div class="field">
-                        <div class="control">
-                            <label for="discount" class="label">Desconto</label>
-                            <input type="text" class="input discount" id="discount" placeholder="Desconto" value="0"
-                                step="0.01">
-                        </div>
-                    </div>
-                    <div class="field">
-                        <div class="control">
-                            <label for="observations" class="label">Observações</label>
-                            <textarea class="textarea name=" id="observations" cols="30" rows="2"></textarea>
-                        </div>
-                    </div>
-
-
-
-
-
-                    <div class="field is-grouped">
-                        <div class="control">
-                            <button type="button" id="add-item" class="button is-info">Adicionar Item</button>
-                        </div>
-                        <div class="control">
-                            <button type="button" id="export-button" class="button is-success">Gerar PDF</button>
-                        </div>
-
-
-
-                    </div>
-
-                    <!-- Campos para os itens do orçamento serão adicionados dinamicamente -->
-                </div>
 
             </form>
 
@@ -230,8 +257,51 @@
 
 
     <script>
+        function generateBudgetNumber() {
+            const currentDate = new Date();
+            const currentYear = currentDate.getFullYear().toString().slice(-2); // Dois dígitos do ano
+            const currentMonth = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // Dois dígitos do mês
+
+            // Verifique se já existe um número de orçamento no localStorage
+            let currentNumber = localStorage.getItem('budgetNumber');
+
+            // Se não houver um número de orçamento anterior, comece com 1
+            if (!currentNumber) {
+                currentNumber = 1;
+            } else {
+                // Caso contrário, incremente o número existente
+                currentNumber = parseInt(currentNumber) + 1;
+            }
+
+            // Formate o número do orçamento com ano, mês e um número com preenchimento de zeros à esquerda
+            const budgetNumber = `${currentYear}${currentMonth}${currentNumber.toString().padStart(3, '0')}`;
+
+            // Salve o novo número no localStorage
+            localStorage.setItem('budgetNumber', currentNumber);
+
+            return budgetNumber;
+        }
+
+        function capitalizeWords(str) {
+            return str.replace(/\b\w/g, (match) => match.toUpperCase());
+        }
+
+
+
+
+
+        const budgetNumberInput = document.getElementById('budgetNumber');
+        budgetNumberInput.value = generateBudgetNumber();
+
+
+
+
+
+
+
+
         // Check if there is data in localStorage
-        const fieldsToSave = ['title', 'company', 'jobTitle', 'location', 'phone', 'cnpj', 'email'];
+        const fieldsToSave = ['title', 'subtitle', 'company', 'jobTitle', 'location', 'phone', 'cnpj', 'email'];
         fieldsToSave.forEach(field => {
             const element = document.getElementById(field);
             if (localStorage.getItem(field)) {
@@ -324,7 +394,7 @@
 
         function calculateTotal(items, discount, log = '') {
 
-            console.log(discount, log);
+
             let subtotal = 0;
             for (let i = 0; i < items.length; i++) {
                 subtotal += items[i].quantity * items[i].priceUnit;
@@ -332,7 +402,6 @@
 
             const total = subtotal - discount;
 
-            console.log(total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }), log);
 
             return {
                 subtotal: subtotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }),
@@ -355,14 +424,67 @@
 
 
             const budgetObservations = document.getElementById('observations').value;
+          
+
+            function formatToDDMMYYYY(isoDate) {
+                const dateParts = isoDate.split('-'); // Suponhamos que a data está no formato ISO 8601 (yyyy-mm-dd)
+                const year = dateParts[0];
+                const month = dateParts[1];
+                const day = dateParts[2];
+
+                return `${day}/${month}/${year}`;
+            }
+
+
+            //const validityDateInput = document.getElementById('validity-date');
+            //const isoDate = validityDateInput.value; // O valor da entrada é "yyyy-mm-dd"
+
+
+
+            
+
+
+
+            //let formatedDate = formatToDDMMYYYY(validityDate);
+            // validityDate = 'Validade: '+ validityDate : '';
+
 
             //budgetData.observations = document.getElementById('observations').value;
             const budgetDiscount = parseFloat(document.getElementById('discount').value.replace(',', '.')) || 0;
             budgetData.discount = budgetDiscount.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            budgetData.number = budgetNumberInput.value || ''
+
+
 
             for (const key in budgetData) {
                 if (budgetData.hasOwnProperty(key) && typeof budgetData[key] === 'string') {
                     budgetData[key] = budgetData[key].toUpperCase();
+                }
+            }
+
+            // Usar um loop for...in para percorrer as propriedades
+            for (const key in budgetData) {
+                if (budgetData.hasOwnProperty(key)) {
+                    // Verificar a propriedade e fazer as modificações necessárias
+                    if (key === 'validityDate' && budgetData[key]) {
+                        if (budgetData[key]) {
+                            const formattedDate = formatToDDMMYYYY(budgetData[key]);
+
+                            budgetData[key] = 'Validade: ' + formattedDate;
+
+                        } else {
+                            budgetData[key] = '';
+                        }
+
+                    }
+                    if (key === 'budgetNumber' && budgetData[key]) {
+                        if (budgetData[key]) {
+                            budgetData[key] = '#' + budgetData[key];
+
+                        } else {
+                            budgetData[key] = '';
+                        }
+                    }
                 }
             }
 
@@ -392,7 +514,6 @@
 
 
 
-            console.log(totalValues.subtotal, totalValues.subtotal);
             var docDefinition = {
                 content: [
                     {
@@ -406,7 +527,7 @@
                             {
                                 text: [
                                     { text: budgetData.title + '\n', style: "header", fontSize: 32, bold: true, alignment: "right" },
-                                    { text: 'SERVIÇOS ELÉTRICOS', style: 'subheader', fontSize: 12, bold: false, alignment: "right" },
+                                    { text: budgetData.subtitle, style: 'subheader', fontSize: 12, bold: false, alignment: "right" },
                                 ]
                             }
                         ],
@@ -432,11 +553,17 @@
                             {
                                 text: [
                                     { text: budgetData.location + '\n', bold: true },
+
+                                    { text: "Email: ", bold: true }, budgetData.email + '\n',
+                                    { text: "Telefone: ", bold: true }, budgetData.phone + '\n',
                                 ]
                             },
                             {
                                 text: [
-                                    { text: 'Data: ' + dataFormatada, alignment: "right", fontSize: 12 },
+                                    { text: budgetData.budgetNumber + '\n', alignment: "right", fontSize: 12 },
+                                    { text: 'Data: ' + dataFormatada + '\n', alignment: "right", fontSize: 12 },
+
+                                    { text: budgetData.validityDate, alignment: "right", fontSize: 12 },
                                 ]
                             }
                         ],
@@ -445,15 +572,16 @@
                         columns: [
                             {
                                 text: [
-                                    budgetData.cnpj + '\n',
-                                    { text: "Email: ", bold: true }, budgetData.email + '\n',
-                                    { text: "Telefone: ", bold: true }, budgetData.phone + '\n',
+                                    //budgetData.cnpj + '\n',
+                                    //{ text: "Email: ", bold: true }, budgetData.email + '\n',
+                                    //{ text: "Telefone: ", bold: true }, budgetData.phone + '\n',
+                                    { text: budgetData.cnpj + '\n' },
                                 ]
                             },
                         ],
                     },
                     {
-                        text: "Orçamento para:",
+                        text: "Cliente:",
                         style: "subheader"
                     },
                     {
@@ -508,15 +636,15 @@
                     {
                         text: "Observações:",
                         alignment: "center",
-                        color:'#444',
+                        color: '#444',
                         margin: [0, 10, 0, 5],
                         //fontSize: 14
                     },
                     {
                         text: budgetObservations,
                         alignment: "center",
-                        fontSize:9,
-                        color:'#444',
+                        fontSize: 9,
+                        color: '#444',
                         margin: [0, 10, 0, 10],
                         //fontSize: 14
                     }
