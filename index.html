@@ -68,6 +68,8 @@
                             <div class="control">
                                 <input class="input" type="date" id="validityDate" name="validityDate">
                             </div>
+
+                            <p class="help">Deixe em branco caso não deseje exibir.</p>
                         </div>
                         <div class="field">
                             <label for="budgetNumber" class="label">Número do Orçamento</label>
@@ -75,6 +77,8 @@
                                 <input class="input" type="text" id="budgetNumber" name="budgetNumber"
                                     placeholder="Número do Orçamento">
                             </div>
+
+                            <p class="help">Deixe em branco caso não deseje exibir.</p>
                         </div>
                     </div>
                 </div>
@@ -119,7 +123,7 @@
                     <div class="field">
                         <label for="phone" class="label">Telefone:</label>
                         <div class="control">
-                            <input type="text" id="phone" name="phone" class="input" required>
+                            <input type="text" id="phone" name="phone" class="input phone" required>
                         </div>
                     </div>
                     <div class="field">
@@ -160,7 +164,7 @@
                     <div class="field">
                         <label for="proposalPhone" class="label">Telefone:</label>
                         <div class="control">
-                            <input type="text" id="proposalPhone" name="proposalPhone" class="input" required>
+                            <input type="text" id="proposalPhone" name="proposalPhone" class="input phone" required>
                         </div>
                     </div>
                     <!--<div class="field">
@@ -186,9 +190,9 @@
                             <label for="item-description" class="label">Descrição</label>
                             <div class="control">
                                 <textarea name="item-description" class="textarea" id="item-description" cols="30"
-                                    rows="2" class="textarea" placeholder="Descrição"></textarea>
+                                    rows="6" class="textarea" placeholder="Descrição"></textarea>
                             </div>
-                            <p class="help is-success">Descreva o serviço</p>
+                            <p class="help">Descreva o produto/serviço</p>
                         </div>
 
 
@@ -202,45 +206,80 @@
                                     </div>
 
                                 </div>
+
                                 <div class="field">
-                                    <div class="control">
-                                        <label for="item-price-unit" class="label">Preço Unitário</label>
-                                        <input type="text" class="input item-price-unit" id="item-price-unit"
-                                            placeholder="Preço unitário">
+                                    <label for="item-price-unit" class="label">Preço Unitário</label>
+
+                                    <div class="field is-expanded">
+                                        <div class="field has-addons">
+
+                                            <p class="control">
+                                                <a class="button is-static">
+                                                    R$
+                                                </a>
+                                            </p>
+                                            <p class="control is-expanded">
+                                                <input type="text" class="input item-price-unit" id="item-price-unit"
+                                                    placeholder="Preço unitário (R$)">
+                                            </p>
+                                        </div>
+                                        <p class="help">Preencha preço unitário do produto/serviço.</p>
                                     </div>
                                 </div>
 
                             </div>
 
                         </div>
+                        <div class="field">
+                            <div class="control">
+                                <button type="button" id="add-item" class="button is-info">Adicionar Item</button>
+                            </div>
+                        </div>
 
                         <h1 class="title pt-5">Outras Informações</h1>
                         <p class="subtitle">
-                             Informações adicionais
+                            Informações adicionais
                         </p>
 
                         <div class="field">
                             <div class="control">
                                 <label for="observations" class="label">Observações</label>
-                                <textarea class="textarea name=" id="observations" cols="30" rows="2"></textarea>
+                                <textarea class="textarea name=" id="observations" cols="30" rows="6"></textarea>
                             </div>
                         </div>
 
 
                         <div class="field">
                             <div class="control">
-                                <label for="discount" class="label">Desconto</label>
-                                <input type="text" class="input discount" id="discount" placeholder="Desconto">
+
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label for="discount" class="label">Desconto</label>
+                            <div class="field is-expanded">
+                                <div class="field has-addons">
+
+                                    <p class="control">
+                                        <a class="button is-static">
+                                            R$
+                                        </a>
+                                    </p>
+                                    <p class="control is-expanded">
+
+                                        <input type="text" class="input discount" id="discount"
+                                            placeholder="Valor do desconto (R$)">
+                                    </p>
+                                </div>
+                                <p class="help">Preencha para aplicar um desconto ao orçamento.</p>
                             </div>
                         </div>
 
 
                         <div class="field is-grouped">
+
                             <div class="control">
-                                <button type="button" id="add-item" class="button is-info">Adicionar Item</button>
-                            </div>
-                            <div class="control">
-                                <button type="button" id="export-button" class="button is-success">Gerar PDF</button>
+                                <button type="button" id="export-button" class="button is-success">Gerar
+                                    PDF</button>
                             </div>
 
 
@@ -258,9 +297,11 @@
             <div id="items-add" class="content">
             </div>
 
-            <p>Subtotal: <span id="subtotal">R$ 0,00</span></p>
-            <h2>Total: <span id="total">R$ 0,00</span></h2>
+            <div class="content">
+                <p>Subtotal: <span id="subtotal">R$ 0,00</span></p>
+                <h4>Total: <span id="total">R$ 0,00</span></h4>
 
+            </div>
         </div>
     </div>
 
@@ -336,15 +377,31 @@
         //Inputmask(inputMaskOptionsDiscount).mask(document.getElementById('discount'));
 
 
-        $(document).ready(function () {
+
+        // aplicação de máscaras utilizando jQuery
+        jQuery(function ($) {
             $('#item-price-unit,#discount').mask('000.000.000,00', { reverse: true });
-           /* $('#discount').mask('000,0%', {
-                reverse: true,
 
-            });*/
+            var SPMaskBehavior = function (val) {
+                return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00009';
+            },
+                spOptions = {
+                    onKeyPress: function (val, e, field, options) {
+                        field.mask(SPMaskBehavior.apply({}, arguments), options);
+                    }
+                };
 
+            $('.phone').mask(SPMaskBehavior, spOptions);
         });
 
+
+        discountInput.addEventListener('input', function () {
+            // Recupere o valor atual do input discount
+            const discountValue = this.value;
+
+            // Chame a função updateTotal com o valor do desconto convertido em porcentagem
+            updateTotal(parseFloat(discountValue.replace(',', '.')));
+        });
 
 
         // Declare a list of service items
@@ -410,6 +467,10 @@
         }
 
         function updateTotal(discount) {
+            if (isNaN(discount)) {
+
+                discount = 0;
+            }
             var totalValues = calculateTotal(serviceItems, discount);
             document.getElementById('subtotal').textContent = totalValues.subtotal;
             document.getElementById('total').textContent = totalValues.total;
@@ -503,13 +564,13 @@
 
             let discountPercentage = 0;
             if (discountInput.value) {
-                console.log('Valor do campo de desconto:', discountInput.value);
+                //console.log('Valor do campo de desconto:', discountInput.value);
                 discountPercentage = parseFloat(discountInput.value.replace(',', '.')) || 0;// / 100;
-                console.log('Valor do desconto convertido:', discountPercentage);
+               // console.log('Valor do desconto convertido:', discountPercentage);
             }
 
             budgetData.discount = discountPercentage;
-            console.log('Valor do desconto em budgetData:', budgetData.discount);
+           // console.log('Valor do desconto em budgetData:', budgetData.discount);
 
 
 
@@ -560,7 +621,7 @@
                 };
             });
 
-            console.log(budgetData);
+            //console.log(budgetData);
             const dataAtual = new Date();
             const dia = String(dataAtual.getDate()).padStart(2, '0');
             const mes = String(dataAtual.getMonth() + 1).padStart(2, '0');
@@ -580,7 +641,7 @@
             var totalValues = calculateTotal(serviceItems, parseFloat(budgetData.discount));
 
 
-            console.log(totalValues);
+            //console.log(totalValues);
 
             var docDefinition = {
                 content: [
@@ -696,7 +757,7 @@
                             {
                                 text: [
                                     { text: budgetData.proposalFor + '\n', bold: true },
-                                    { text: "CPF/CNPJ: ", bold: true }, budgetData.proposalCPFCNPJ + '\n',
+                                    //{ text: "CPF/CNPJ: ", bold: true }, budgetData.proposalCPFCNPJ + '\n',
                                     { text: "Endereço: ", bold: true }, budgetData.proposalLocation + '\n',
                                     { text: "Email: ", bold: true }, budgetData.proposalEmail + '\n',
                                     { text: "Telefone: ", bold: true }, budgetData.proposalPhone + '\n',
@@ -714,7 +775,7 @@
                             headerRows: 1,
                             widths: ['auto', '*', 80, 80, 80],
                             body: [
-                                ["#", "Descrição do serviço", "Quantidade", "Preço Unitário", "Preço Total"],
+                                ["#", "Produto/Serviço", "Quantidade", "Preço Unitário", "Preço Total"],
                                 ...budgetData.items.map((item, index) => [index + 1, item.description, item.quantity, item.priceUnit, item.priceTotal])
                             ]
                         },
@@ -805,7 +866,24 @@
                 }
             };
 
-            pdfMake.createPdf(docDefinition).download("orcamento.pdf");
+
+            const pdfOutput = {
+                name: 'ORC-' + (budgetData.budgetNumber ? budgetData.budgetNumber.replace('#', '') : (dataFormatada ? dataFormatada.replace(/\//g, '_') : '')),
+                //name: 'ORC-' + (budgetData.budgetNumber.replace('#', ''),
+                extension: '.pdf'
+            }
+            //const pdfName = 'ORC-'+ budgetData.dataAtual.replace('/','') +budgetData.budgetNumber ;
+            // pdfMake.createPdf(docDefinition).download("orcamento.pdf");
+            const pdfDocGenerator = pdfMake.createPdf(docDefinition);
+
+            pdfDocGenerator.getBlob((blob) => {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = pdfOutput.name + pdfOutput.extension; // Nome do arquivo
+                a.click();
+                URL.revokeObjectURL(url);
+            });
         });
     </script>
 
