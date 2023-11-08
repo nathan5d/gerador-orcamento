@@ -55,46 +55,48 @@
 
 
             <form id="pdf-form">
-                <h1 class="title pt-5">Dados do Emissor</h1>
-                <p class="subtitle">
-                    Forneça os dados necessários
-                </p>
+                <fieldset>
+                    <h1 class="title pt-5">Dados do Emissor</h1>
+                    <p class="subtitle">
+                        Forneça os dados necessários
+                    </p>
 
 
-                <div class="field">
-                    <div class="field-body">
-                        <div class="field">
-                            <label for="validityDate" class="label">Data de Validade</label>
-                            <div class="control">
-                                <input class="input" type="date" id="validityDate" name="validityDate">
+                    <div class="field">
+                        <div class="field-body">
+                            <div class="field">
+                                <label for="validityDate" class="label">Data de Validade</label>
+                                <div class="control">
+                                    <input class="input" type="date" id="validityDate" name="validityDate">
+                                </div>
+
+                                <p class="help">Deixe em branco caso não deseje exibir.</p>
                             </div>
+                            <div class="field">
+                                <label for="budgetNumber" class="label">Número do Orçamento</label>
+                                <div class="control">
+                                    <input class="input" type="text" id="budgetNumber" name="budgetNumber"
+                                        placeholder="Número do Orçamento">
+                                </div>
 
-                            <p class="help">Deixe em branco caso não deseje exibir.</p>
-                        </div>
-                        <div class="field">
-                            <label for="budgetNumber" class="label">Número do Orçamento</label>
-                            <div class="control">
-                                <input class="input" type="text" id="budgetNumber" name="budgetNumber"
-                                    placeholder="Número do Orçamento">
+                                <p class="help">Deixe em branco caso não deseje exibir.</p>
                             </div>
-
-                            <p class="help">Deixe em branco caso não deseje exibir.</p>
                         </div>
                     </div>
-                </div>
 
 
 
-                <div class="field">
-                    <label for="title" class="label">Tipo:</label>
-                    <div class="control">
-                        <input type="text" id="title" name="title" class="input" value="ORÇAMENTO" required>
+                    <div class="field">
+                        <label for="title" class="label">Tipo:</label>
+                        <div class="control">
+                            <input type="text" id="title" name="title" class="input" value="ORÇAMENTO" required>
+                        </div>
                     </div>
-                </div>
-                <div class="field">
-                    <label for="subtitle" class="label">Descrição:</label>
-                    <div class="control">
-                        <input type="text" id="subtitle" name="subtitle" class="input" required>
+                    <div class="field">
+                        <label for="subtitle" class="label">Descrição:</label>
+                        <div class="control">
+                            <input type="text" id="subtitle" name="subtitle" class="input" required>
+                        </div>
                     </div>
                     <div class="field">
                         <label for="company" class="label">Empresa:</label>
@@ -132,7 +134,9 @@
                             <input type="text" id="cnpj" name="cnpj" class="input" required>
                         </div>
                     </div>
+                </fieldset>
 
+                <fieldset>
                     <h1 class="title pt-5">Dados do Cliente</h1>
                     <p class="subtitle">
                         Forneça os dados do cliente
@@ -143,7 +147,7 @@
                             <input type="text" id="proposalFor" name="proposalFor" class="input" required>
                         </div>
                     </div>
-                   
+
                     <div class="field">
                         <label for="proposalLocation" class="label">Localização:</label>
                         <div class="control">
@@ -181,6 +185,8 @@
                     </div>
                 </div>
                 -->
+                </fieldset>
+                <fieldset>
                     <h1 class="title pt-5">Detalhes do orçamento</h1>
                     <p class="subtitle">
                         Forneça os dados necessários
@@ -236,59 +242,62 @@
                                 <button type="button" id="add-item" class="button is-info">Adicionar Item</button>
                             </div>
                         </div>
-
-                        <h1 class="title pt-5">Outras Informações</h1>
-                        <p class="subtitle">
-                            Informações adicionais
-                        </p>
-
-                        <div class="field">
-                            <div class="control">
-                                <label for="observations" class="label">Observações</label>
-                                <textarea class="textarea name=" id="observations" cols="30" rows="6"></textarea>
-                            </div>
-                        </div>
-
-
-                        <div class="field">
-                            <div class="control">
-
-                            </div>
-                        </div>
-                        <div class="field">
-                            <label for="discount" class="label">Desconto</label>
-                            <div class="field is-expanded">
-                                <div class="field has-addons">
-
-                                    <p class="control">
-                                        <a class="button is-static">
-                                            R$
-                                        </a>
-                                    </p>
-                                    <p class="control is-expanded">
-
-                                        <input type="text" class="input discount" id="discount"
-                                            placeholder="Valor do desconto (R$)">
-                                    </p>
-                                </div>
-                                <p class="help">Preencha para aplicar um desconto ao orçamento.</p>
-                            </div>
-                        </div>
-
-
-                        <div class="field is-grouped">
-
-                            <div class="control">
-                                <button type="button" id="export-button" class="button is-success">Gerar
-                                    PDF</button>
-                            </div>
-
-
-
-                        </div>
-
-                        <!-- Campos para os itens do orçamento serão adicionados dinamicamente -->
                     </div>
+                </fieldset>
+                <fieldset>
+                    <h1 class="title pt-5">Outras Informações</h1>
+                    <p class="subtitle">
+                        Informações adicionais
+                    </p>
+
+                    <div class="field">
+                        <div class="control">
+                            <label for="observations" class="label">Observações</label>
+                            <textarea class="textarea name=" id="observations" cols="30" rows="6"></textarea>
+                        </div>
+                    </div>
+
+
+                    <div class="field">
+                        <div class="control">
+
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="discount" class="label">Desconto</label>
+                        <div class="field is-expanded">
+                            <div class="field has-addons">
+
+                                <p class="control">
+                                    <a class="button is-static">
+                                        R$
+                                    </a>
+                                </p>
+                                <p class="control is-expanded">
+
+                                    <input type="text" class="input discount" id="discount"
+                                        placeholder="Valor do desconto (R$)">
+                                </p>
+                            </div>
+                            <p class="help">Preencha para aplicar um desconto ao orçamento.</p>
+                        </div>
+                    </div>
+
+
+                    <div class="field is-grouped">
+
+                        <div class="control">
+                            <button type="button" id="export-button" class="button is-success">Gerar
+                                PDF</button>
+                        </div>
+
+
+
+                    </div>
+                </fieldset>
+
+                <!-- Campos para os itens do orçamento serão adicionados dinamicamente -->
+
 
             </form>
 
@@ -567,11 +576,11 @@
             if (discountInput.value) {
                 //console.log('Valor do campo de desconto:', discountInput.value);
                 discountPercentage = parseFloat(discountInput.value.replace(',', '.')) || 0;// / 100;
-               // console.log('Valor do desconto convertido:', discountPercentage);
+                // console.log('Valor do desconto convertido:', discountPercentage);
             }
 
             budgetData.discount = discountPercentage;
-           // console.log('Valor do desconto em budgetData:', budgetData.discount);
+            // console.log('Valor do desconto em budgetData:', budgetData.discount);
 
 
 
