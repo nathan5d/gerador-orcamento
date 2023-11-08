@@ -20,6 +20,9 @@
     <!-- Adicione a biblioteca Inputmask -->
     <script src="https://cdn.jsdelivr.net/npm/inputmask"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+
+
 
     <script type="module" src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule="" src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons/ionicons.js"></script>
@@ -48,6 +51,8 @@
                 Uma ferramenta eficiente para criar orçamentos personalizados com facilidade, permitindo
                 que você forneça propostas profissionais com detalhes precisos e formatação elegante.
             </div>
+
+
 
             <form id="pdf-form">
                 <h1 class="title pt-5">Dados do Emissor</h1>
@@ -209,13 +214,11 @@
 
                         </div>
 
-                        <div class="field">
-                            <div class="control">
-                                <label for="discount" class="label">Desconto</label>
-                                <input type="text" class="input discount" id="discount" placeholder="Desconto" value="0"
-                                    step="0.01">
-                            </div>
-                        </div>
+                        <h1 class="title pt-5">Outras Informações</h1>
+                        <p class="subtitle">
+                             Informações adicionais
+                        </p>
+
                         <div class="field">
                             <div class="control">
                                 <label for="observations" class="label">Observações</label>
@@ -224,7 +227,12 @@
                         </div>
 
 
-
+                        <div class="field">
+                            <div class="control">
+                                <label for="discount" class="label">Desconto</label>
+                                <input type="text" class="input discount" id="discount" placeholder="Desconto">
+                            </div>
+                        </div>
 
 
                         <div class="field is-grouped">
@@ -246,17 +254,23 @@
 
 
 
+
             <div id="items-add" class="content">
             </div>
 
             <p>Subtotal: <span id="subtotal">R$ 0,00</span></p>
-            <p>Total: <span id="total">R$ 0,00</span></p>
+            <h2>Total: <span id="total">R$ 0,00</span></h2>
 
         </div>
     </div>
 
 
     <script>
+        const budgetNumberInput = document.getElementById('budgetNumber');
+        budgetNumberInput.value = generateBudgetNumber();
+
+        const discountInput = document.getElementById('discount');
+
         function generateBudgetNumber() {
             const currentDate = new Date();
             const currentYear = currentDate.getFullYear().toString().slice(-2); // Dois dígitos do ano
@@ -290,16 +304,6 @@
 
 
 
-        const budgetNumberInput = document.getElementById('budgetNumber');
-        budgetNumberInput.value = generateBudgetNumber();
-
-
-
-
-
-
-
-
         // Check if there is data in localStorage
         const fieldsToSave = ['title', 'subtitle', 'company', 'jobTitle', 'location', 'phone', 'cnpj', 'email'];
         fieldsToSave.forEach(field => {
@@ -320,9 +324,28 @@
             groupSeparator: '.',
             autoUnmask: true,
         };
-        ['item-price-unit', 'discount'].forEach(fieldId => {
-            Inputmask('currency', inputMaskOptions).mask(document.getElementById(fieldId));
+        ['item-price-unit'].forEach(fieldId => {
+            //   Inputmask('currency', inputMaskOptions).mask(document.getElementById(fieldId));
         });
+
+        // Set up input masks for price unit and discount fields
+        const inputMaskOptionsDiscount = {
+            alias: 'percentage',
+            rightAlign: false, // Alinhar à esquerda para que o símbolo de porcentagem (%) apareça à direita
+        };
+        //Inputmask(inputMaskOptionsDiscount).mask(document.getElementById('discount'));
+
+
+        $(document).ready(function () {
+            $('#item-price-unit,#discount').mask('000.000.000,00', { reverse: true });
+           /* $('#discount').mask('000,0%', {
+                reverse: true,
+
+            });*/
+
+        });
+
+
 
         // Declare a list of service items
         const serviceItems = [];
@@ -391,6 +414,29 @@
             document.getElementById('subtotal').textContent = totalValues.subtotal;
             document.getElementById('total').textContent = totalValues.total;
         }
+        function updateTotalPercent(discountPercent) {
+            var totalValues = calculateTotal(serviceItems, discountPercent);
+            document.getElementById('subtotal').textContent = totalValues.subtotal;
+            document.getElementById('total').textContent = totalValues.total;
+        }
+
+
+        function calculateTotalPercent(items, discountPercent) {
+            let subtotal = 0;
+            for (let i = 0; i < items.length; i++) {
+                subtotal += items[i].quantity * items[i].priceUnit;
+            }
+
+            // Converta o desconto em porcentagem para uma fração (por exemplo, 1,2% para 0,012)
+            const discountFraction = discountPercent / 100;
+            const discount = subtotal * discountFraction;
+            const total = subtotal - discount;
+
+            return {
+                subtotal: subtotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }),
+                total: total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }),
+            };
+        }
 
         function calculateTotal(items, discount, log = '') {
 
@@ -409,6 +455,7 @@
             };
         }
 
+
         document.getElementById('export-button').addEventListener('click', function () {
             const formData = new FormData(document.getElementById('pdf-form'));
             const budgetData = Object.fromEntries(formData);
@@ -418,13 +465,15 @@
                 return;
             }
 
-            var totalValues = {
-                discount: 0
-            }; // Inicialize o valor de desconto
+
+
+            //var totalValues = {
+            //    discount: 0
+            //}; // Inicialize o valor de desconto
 
 
             const budgetObservations = document.getElementById('observations').value;
-          
+
 
             function formatToDDMMYYYY(isoDate) {
                 const dateParts = isoDate.split('-'); // Suponhamos que a data está no formato ISO 8601 (yyyy-mm-dd)
@@ -441,7 +490,7 @@
 
 
 
-            
+
 
 
 
@@ -450,43 +499,57 @@
 
 
             //budgetData.observations = document.getElementById('observations').value;
-            const budgetDiscount = parseFloat(document.getElementById('discount').value.replace(',', '.')) || 0;
-            budgetData.discount = budgetDiscount.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            //const budgetDiscount = parseFloat(document.getElementById('discount').value.replace(',', '.')) || 0;
+
+            let discountPercentage = 0;
+            if (discountInput.value) {
+                console.log('Valor do campo de desconto:', discountInput.value);
+                discountPercentage = parseFloat(discountInput.value.replace(',', '.')) || 0;// / 100;
+                console.log('Valor do desconto convertido:', discountPercentage);
+            }
+
+            budgetData.discount = discountPercentage;
+            console.log('Valor do desconto em budgetData:', budgetData.discount);
+
+
+
+
+            //budgetData.discount = budgetDiscount.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
             budgetData.number = budgetNumberInput.value || ''
 
 
 
-            for (const key in budgetData) {
-                if (budgetData.hasOwnProperty(key) && typeof budgetData[key] === 'string') {
-                    budgetData[key] = budgetData[key].toUpperCase();
-                }
-            }
+
+            /* for (const key in budgetData) {
+                 if (budgetData.hasOwnProperty(key) && typeof budgetData[key] === 'string') {
+                    // budgetData[key] = budgetData[key].toUpperCase();
+                 }
+             }*/
+
+            const propertiesToUppercase = ['title', 'subtitle', 'company', 'jobTitle', 'location', 'proposalFor', 'proposalLocation'];
 
             // Usar um loop for...in para percorrer as propriedades
             for (const key in budgetData) {
                 if (budgetData.hasOwnProperty(key)) {
-                    // Verificar a propriedade e fazer as modificações necessárias
-                    if (key === 'validityDate' && budgetData[key]) {
+                    // Verificar se a propriedade está em propertiesToUppercase
+                    if (propertiesToUppercase.includes(key)) {
+                        // Converter para letras maiúsculas se a propriedade existir e não for vazia
                         if (budgetData[key]) {
-                            const formattedDate = formatToDDMMYYYY(budgetData[key]);
-
-                            budgetData[key] = 'Validade: ' + formattedDate;
-
+                            budgetData[key] = budgetData[key].toUpperCase();
                         } else {
                             budgetData[key] = '';
                         }
-
-                    }
-                    if (key === 'budgetNumber' && budgetData[key]) {
-                        if (budgetData[key]) {
-                            budgetData[key] = '#' + budgetData[key];
-
-                        } else {
-                            budgetData[key] = '';
-                        }
+                    } else if (key === 'validityDate' && budgetData[key]) {
+                        // Manipular 'validityDate' como desejado (por exemplo, formatar)
+                        const formattedDate = formatToDDMMYYYY(budgetData[key]);
+                        budgetData[key] = 'Validade: ' + formattedDate;
+                    } else if (key === 'budgetNumber' && budgetData[key]) {
+                        // Manipular 'budgetNumber' como desejado
+                        budgetData[key] = '#' + budgetData[key];
                     }
                 }
             }
+
 
             budgetData.items = serviceItems.map(item => {
                 return {
@@ -510,9 +573,14 @@
 
             //var totalValues = calculateTotal(serviceItems, budgetData.discount);
 
-            var totalValues = calculateTotal(serviceItems, budgetDiscount, 'export'); // Calcular o total aqui
+            //var totalValues = calculateTotal(serviceItems, budgetData.discount, 'export'); // Calcular o total aqui
 
 
+            //var totalValues = calculateTotal(serviceItems, );
+            var totalValues = calculateTotal(serviceItems, parseFloat(budgetData.discount));
+
+
+            console.log(totalValues);
 
             var docDefinition = {
                 content: [
@@ -548,6 +616,45 @@
                     {
                         text: ' '
                     },
+
+                    {
+                        columns: [
+                            {
+                                text: [
+                                    { text: budgetData.budgetNumber + '\n', alignment: "center", fontSize: 12 },
+                                ]
+                            },
+                            {
+                                text: [
+                                    { text: 'Data: ' + dataFormatada + '\n', alignment: "center", fontSize: 12 },
+
+                                ]
+                            },
+                            {
+                                text: [
+                                    { text: budgetData.validityDate, alignment: "center", fontSize: 12 },
+                                ]
+                            }
+                        ],
+                    },
+                    {
+                        canvas: [
+                            {
+                                type: 'line',
+                                x1: 0,
+                                y1: 10,
+                                x2: 515,
+                                y2: 10,
+                                lineWidth: 2,
+                                lineColor: '#333'
+                            }
+                        ],
+                    },
+
+                    {
+                        text: ' '
+                    },
+
                     {
                         columns: [
                             {
@@ -558,14 +665,14 @@
                                     { text: "Telefone: ", bold: true }, budgetData.phone + '\n',
                                 ]
                             },
-                            {
+                            /*{
                                 text: [
                                     { text: budgetData.budgetNumber + '\n', alignment: "right", fontSize: 12 },
                                     { text: 'Data: ' + dataFormatada + '\n', alignment: "right", fontSize: 12 },
 
                                     { text: budgetData.validityDate, alignment: "right", fontSize: 12 },
                                 ]
-                            }
+                            }*/
                         ],
                     },
                     {
@@ -621,7 +728,7 @@
                     },
 
                     {
-                        text: "DESCONTO: " + budgetData.discount,
+                        text: "DESCONTO: " + budgetData.discount.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }),
                         style: "discount",
                         alignment: "right",
                         //fontSize: 14
