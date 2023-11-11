@@ -315,9 +315,10 @@
         </div>
     </div>
 
-
+  
     <script>
         const budgetNumberInput = document.getElementById('budgetNumber');
+
         budgetNumberInput.value = generateBudgetNumber();
 
         const discountInput = document.getElementById('discount');
@@ -356,14 +357,36 @@
 
 
         // Check if there is data in localStorage
-        const fieldsToSave = ['title', 'subtitle', 'company', 'jobTitle', 'location', 'phone', 'cnpj', 'email'];
+        const fieldsToSave = ['validityDate','title', 'subtitle', 'company', 'jobTitle', 'location', 'phone', 'cnpj', 'email'];
         fieldsToSave.forEach(field => {
             const element = document.getElementById(field);
+
+            // Se houver um valor no localStorage, preenche o campo
             if (localStorage.getItem(field)) {
-                element.value = localStorage.getItem(field) || '';
+                if(field != 'validityDate'){
+                    element.value = localStorage.getItem(field) || '';
+                }
+                
             }
 
+            // Verifica se há um valor no parâmetro da URL
+            var urlParams = new URLSearchParams(window.location.search);
+
+            if (urlParams.get(field)) {
+              
+                let paramValue = urlParams.get(field);
+                console.log(paramValue);
+
+                // Salva o valor do parâmetro da URL no localStorage
+                localStorage.setItem(field, paramValue);
+
+                // Preenche o campo com o valor atual
+                element.value = paramValue;
+            }
+
+            // Adiciona um listener de evento de input para salvar no localStorage
             element.addEventListener('input', function () {
+
                 localStorage.setItem(field, this.value);
             });
         });
