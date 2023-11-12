@@ -56,10 +56,8 @@
 
             <form id="pdf-form">
                 <fieldset>
-                    <h1 class="title pt-5">Dados do Emissor</h1>
-                    <p class="subtitle">
-                        Forneça os dados necessários
-                    </p>
+                    <h1 class="title pt-5">Informações Gerais</h1>
+
 
 
                     <div class="field">
@@ -84,6 +82,12 @@
                         </div>
                     </div>
 
+                </fieldset>
+                <fieldset>
+                    <h1 class="title pt-5">Dados do Emissor</h1>
+                    <p class="subtitle">
+                        Forneça os dados necessários
+                    </p>
 
 
                     <div class="field">
@@ -129,7 +133,7 @@
                         </div>
                     </div>
                     <div class="field">
-                        <label for="cnpj" class="label">CNPJ:</label>
+                        <label for="cnpj" class="label">CPF/CNPJ:</label>
                         <div class="control">
                             <input type="text" id="cnpj" name="cnpj" class="input" required>
                         </div>
@@ -169,8 +173,11 @@
                     <div class="field">
                         <label for="proposalCPFCNPJ" class="label">CPF/CNPJ:</label>
                         <div class="control">
-                            <input type="text" id="proposalCPFCNPJ" name="proposalCPFCNPJ" class="input" required>
+                            <input type="text" id="proposalCPFCNPJ" name="proposalCPFCNPJ" class="input cpf-cnpj" required>
                         </div>
+                        <p class="help is-danger cpf-cnpj-error" style="display: none;">Por favor, insira um CPF ou CNPJ
+                            válido.</p>
+
                     </div>
                     <!--<div class="field">
                     <label for="validUntil" class="label">Válido até:</label>
@@ -315,8 +322,40 @@
         </div>
     </div>
 
-  
+    <script src="assets/js/functions.js"></script>
+
     <script>
+
+        // Configuração das opções de validação
+        var validationOptions = {
+            cpf: { validate: validateCpf },
+            email: { validate: validateEmail },
+            number: { validate: validateNumber }
+        };
+
+        // Função para validar o formulário como um todo
+        function validateForm() {
+            var formIsValid = true;
+
+            Object.keys(validationOptions).forEach(function (fieldId) {
+                var input = $('#' + fieldId);
+                var value = input.val();
+                var isValid = validationOptions[fieldId].validate(value);
+
+                if (!isValid) {
+                    input.addClass('is-danger');
+                    $('.' + fieldId + '-error').show();
+                    formIsValid = false;
+                }
+            });
+
+            if (formIsValid) {
+                alert('Formulário válido!'); // Aqui você pode adicionar a lógica para enviar o formulário
+            }
+        }
+    </script>
+    <script>
+
         const budgetNumberInput = document.getElementById('budgetNumber');
 
         budgetNumberInput.value = generateBudgetNumber();
@@ -357,23 +396,23 @@
 
 
         // Check if there is data in localStorage
-        const fieldsToSave = ['validityDate','title', 'subtitle', 'company', 'jobTitle', 'location', 'phone', 'cnpj', 'email'];
+        const fieldsToSave = ['validityDate', 'title', 'subtitle', 'company', 'jobTitle', 'location', 'phone', 'cnpj', 'email'];
         fieldsToSave.forEach(field => {
             const element = document.getElementById(field);
 
             // Se houver um valor no localStorage, preenche o campo
             if (localStorage.getItem(field)) {
-                if(field != 'validityDate'){
+                if (field != 'validityDate') {
                     element.value = localStorage.getItem(field) || '';
                 }
-                
+
             }
 
             // Verifica se há um valor no parâmetro da URL
             var urlParams = new URLSearchParams(window.location.search);
 
             if (urlParams.get(field)) {
-              
+
                 let paramValue = urlParams.get(field);
                 console.log(paramValue);
 
@@ -425,6 +464,18 @@
                 };
 
             $('.phone').mask(SPMaskBehavior, spOptions);
+
+
+
+            var options = {
+                onKeyPress: function (cpfcnpj, e, field, options) {
+                    var masks = ['000.000.000-000', '00.000.000/0000-00'];
+                    var mask = (cpfcnpj.replace(/\D/g, '').length > 11) ? masks[1] : masks[0];
+                    $('.cpf-cnpj').mask(mask, options);
+                }
+            };
+
+            $('.cpf-cnpj').mask('000.000.000-000', options);
         });
 
 
@@ -465,6 +516,9 @@
             updateServiceItemsList();
             //updateTotal(parseFloat(document.getElementById('discount').value.replace(',', '.')));
             updateTotal(parseFloat(document.getElementById('discount').value.replace(',', '.')));
+
+             // Aplica as validações aos campos do formulário
+        applyValidation(validationOptions);
         });
 
         function updateServiceItemsList() {
@@ -919,6 +973,8 @@
             });
         });
     </script>
+
+   
 
 </body>
 
