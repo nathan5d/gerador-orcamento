@@ -24,7 +24,7 @@ function validateForm(fields, validationOptions) {
             } else if (options.customValidation && !options.customValidation(value)) {
                 isValid = false;
                 displayError(field, errorMessages.custom);
-            } else if (options.isEmail && !isValidEmail(value)) {
+            } else if (options.isEmail && !isEmail(value)) {
                 isValid = false;
                 displayError(field, errorMessages.isEmail);
             } else {
@@ -39,19 +39,12 @@ function validateForm(fields, validationOptions) {
 
 
 // Função auxiliar para validar e-mail
-function isValidEmail(email) {
-    // Adicione uma lógica de validação de e-mail apropriada aqui
-    // Por exemplo, usando expressões regulares
-    return true;
-}
-
-
-
-// Função para verificar se o valor é um e-mail válido
-function isEmail(value) {
+function isEmail(email) {
+    // Utilizamos uma expressão regular para verificar se o e-mail está no formato correto
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(value);
+    return emailRegex.test(email);
 }
+
 
 // Função para exibir mensagem de erro
 function displayError(elementId, message) {
