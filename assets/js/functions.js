@@ -2,7 +2,7 @@
 
 // Função para aplicar validações genéricas
 function applyValidation(options) {
-    $(document).ready(function () {
+    $(function () {
         Object.keys(options).forEach(function (fieldId) {
             var input = $('#' + fieldId);
             var error = $('.' + fieldId + '-error');

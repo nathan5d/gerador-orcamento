@@ -69,6 +69,9 @@
                                 </div>
 
                                 <p class="help">Deixe em branco caso não deseje exibir.</p>
+                                <!-- Mensagem de erro -->
+                                <p id="validityDate-error" class="help is-danger" style="display: none;"></p>
+
                             </div>
                             <div class="field">
                                 <label for="budgetNumber" class="label">Número do Orçamento</label>
@@ -78,6 +81,9 @@
                                 </div>
 
                                 <p class="help">Deixe em branco caso não deseje exibir.</p>
+                                <!-- Mensagem de erro -->
+                                <p id="budgetNumber-error" class="help is-danger" style="display: none;"></p>
+
                             </div>
                         </div>
                     </div>
@@ -95,48 +101,72 @@
                         <div class="control">
                             <input type="text" id="title" name="title" class="input" value="ORÇAMENTO" required>
                         </div>
+                        <!-- Mensagem de erro -->
+                        <p id="title-error" class="help is-danger" style="display: none;"></p>
+
                     </div>
                     <div class="field">
                         <label for="subtitle" class="label">Descrição:</label>
                         <div class="control">
                             <input type="text" id="subtitle" name="subtitle" class="input" required>
                         </div>
+                        <!-- Mensagem de erro -->
+                        <p id="subtitle-error" class="help is-danger" style="display: none;"></p>
+
                     </div>
                     <div class="field">
                         <label for="company" class="label">Empresa:</label>
                         <div class="control">
                             <input type="text" id="company" name="company" class="input" required>
                         </div>
+                        <!-- Mensagem de erro -->
+                        <p id="company-error" class="help is-danger" style="display: none;"></p>
+
                     </div>
                     <div class="field">
                         <label for="jobTitle" class="label">Cargo:</label>
                         <div class="control">
                             <input type="text" id="jobTitle" name="jobTitle" class="input" required>
                         </div>
+                        <!-- Mensagem de erro -->
+                        <p id="jobTitle-error" class="help is-danger" style="display: none;"></p>
+
                     </div>
                     <div class="field">
                         <label for="location" class="label">Localização:</label>
                         <div class="control">
                             <input type="text" id="location" name="location" class="input" required>
                         </div>
+                        <!-- Mensagem de erro -->
+                        <p id="location-error" class="help is-danger" style="display: none;"></p>
+
                     </div>
                     <div class="field">
                         <label for="email" class="label">E-mail:</label>
                         <div class="control">
                             <input type="email" id="email" name="email" class="input" required>
                         </div>
+                        <!-- Mensagem de erro -->
+                        <p id="email-error" class="help is-danger" style="display: none;"></p>
+
                     </div>
                     <div class="field">
                         <label for="phone" class="label">Telefone:</label>
                         <div class="control">
                             <input type="text" id="phone" name="phone" class="input phone" required>
                         </div>
+                        <!-- Mensagem de erro -->
+                        <p id="phone-error" class="help is-danger" style="display: none;"></p>
+
                     </div>
                     <div class="field">
                         <label for="cnpj" class="label">CPF/CNPJ:</label>
                         <div class="control">
                             <input type="text" id="cnpj" name="cnpj" class="input" required>
                         </div>
+                        <!-- Mensagem de erro -->
+                        <p id="cnpj-error" class="help is-danger" style="display: none;"></p>
+
                     </div>
                 </fieldset>
 
@@ -150,6 +180,9 @@
                         <div class="control">
                             <input type="text" id="proposalFor" name="proposalFor" class="input" required>
                         </div>
+                        <!-- Mensagem de erro -->
+                        <p id="proposalFor-error" class="help is-danger" style="display: none;"></p>
+
                     </div>
 
                     <div class="field">
@@ -157,41 +190,40 @@
                         <div class="control">
                             <input type="text" id="proposalLocation" name="proposalLocation" class="input" required>
                         </div>
+                        <!-- Mensagem de erro -->
+                        <p id="proposalLocation-error" class="help is-danger" style="display: none;"></p>
+
                     </div>
                     <div class="field">
                         <label for="proposalEmail" class="label">E-mail:</label>
                         <div class="control">
                             <input type="email" id="proposalEmail" name="proposalEmail" class="input" required>
                         </div>
+                        <!-- Mensagem de erro -->
+                        <p id="proposalEmail-error" class="help is-danger" style="display: none;"></p>
+
                     </div>
                     <div class="field">
                         <label for="proposalPhone" class="label">Telefone:</label>
                         <div class="control">
                             <input type="text" id="proposalPhone" name="proposalPhone" class="input phone" required>
                         </div>
+                        <!-- Mensagem de erro -->
+                        <p id="proposalPhone-error" class="help is-danger" style="display: none;"></p>
+
                     </div>
                     <div class="field">
                         <label for="proposalCPFCNPJ" class="label">CPF/CNPJ:</label>
                         <div class="control">
-                            <input type="text" id="proposalCPFCNPJ" name="proposalCPFCNPJ" class="input cpf-cnpj" required>
+                            <input type="text" id="proposalCPFCNPJ" name="proposalCPFCNPJ" class="input cpf-cnpj"
+                                required>
                         </div>
-                        <p class="help is-danger cpf-cnpj-error" style="display: none;">Por favor, insira um CPF ou CNPJ
-                            válido.</p>
+                        <!-- Mensagem de erro -->
+                        <p id="proposalCPFCNPJ-error" class="help is-danger" style="display: none;"></p>
+
 
                     </div>
-                    <!--<div class="field">
-                    <label for="validUntil" class="label">Válido até:</label>
-                    <div class="control">
-                        <input type="text" id="validUntil" name="validUntil" class="input" required>
-                    </div>
-                </div>
-                <div class="field">
-                    <label for="availability" class="label">Disponibilidade:</label>
-                    <div class="control">
-                        <input type="text" id="availability" name="availability" class="input" required>
-                    </div>
-                </div>
-                -->
+
                 </fieldset>
                 <fieldset>
                     <h1 class="title pt-5">Detalhes do orçamento</h1>
@@ -206,7 +238,9 @@
                                 <textarea name="item-description" class="textarea" id="item-description" cols="30"
                                     rows="6" class="textarea" placeholder="Descrição"></textarea>
                             </div>
-                            <p class="help">Descreva o produto/serviço</p>
+                            <!-- Mensagem de erro -->
+                            <p id="item-description-error" class="help is-danger" style="display: none;"></p>
+
                         </div>
 
 
@@ -218,6 +252,9 @@
                                         <input type="number" class="input item-quantity" id="item-quantity"
                                             placeholder="Quantidade">
                                     </div>
+                                    <!-- Mensagem de erro -->
+                                    <p id="item-quantity-error" class="help is-danger" style="display: none;"></p>
+
 
                                 </div>
 
@@ -237,7 +274,9 @@
                                                     placeholder="Preço unitário (R$)">
                                             </p>
                                         </div>
-                                        <p class="help">Preencha preço unitário do produto/serviço.</p>
+                                        <!-- Mensagem de erro -->
+                                        <p id="item-price-unit-error" class="help is-danger" style="display: none;"></p>
+
                                     </div>
                                 </div>
 
@@ -262,14 +301,13 @@
                             <label for="observations" class="label">Observações</label>
                             <textarea class="textarea name=" id="observations" cols="30" rows="6"></textarea>
                         </div>
+                        <!-- Mensagem de erro -->
+                        <p id="observations-error" class="help is-danger" style="display: none;"></p>
+
                     </div>
 
 
-                    <div class="field">
-                        <div class="control">
 
-                        </div>
-                    </div>
                     <div class="field">
                         <label for="discount" class="label">Desconto</label>
                         <div class="field is-expanded">
@@ -286,7 +324,9 @@
                                         placeholder="Valor do desconto (R$)">
                                 </p>
                             </div>
-                            <p class="help">Preencha para aplicar um desconto ao orçamento.</p>
+                            <!-- Mensagem de erro -->
+                            <p id="discount-error" class="help is-danger" style="display: none;"></p>
+
                         </div>
                     </div>
 
@@ -322,37 +362,29 @@
         </div>
     </div>
 
-    <script src="assets/js/functions.js"></script>
+    <script src="assets/js/formValidator.js"></script>
 
     <script>
+        const fieldsToValidate = [
+            'title',
+            'subtitle',
+            'company',
+            'jobTitle',
+            'location',
+            'phone',
+            'cnpj',
+            'email',
 
-        // Configuração das opções de validação
-        var validationOptions = {
-            cpf: { validate: validateCpf },
-            email: { validate: validateEmail },
-            number: { validate: validateNumber }
+            'item-description',
+            'item-quantity',
+            'item-price-unit'
+        ];
+        const validationOptions = {
+            required: true,
+            minLength: 3,
+            isEmail: true
+            // Adicione outras opções de validação conforme necessário
         };
-
-        // Função para validar o formulário como um todo
-        function validateForm() {
-            var formIsValid = true;
-
-            Object.keys(validationOptions).forEach(function (fieldId) {
-                var input = $('#' + fieldId);
-                var value = input.val();
-                var isValid = validationOptions[fieldId].validate(value);
-
-                if (!isValid) {
-                    input.addClass('is-danger');
-                    $('.' + fieldId + '-error').show();
-                    formIsValid = false;
-                }
-            });
-
-            if (formIsValid) {
-                alert('Formulário válido!'); // Aqui você pode adicionar a lógica para enviar o formulário
-            }
-        }
     </script>
     <script>
 
@@ -496,10 +528,65 @@
             const quantity = parseFloat(document.getElementById('item-quantity').value) || 0;
             const priceUnit = parseFloat(document.getElementById('item-price-unit').value.replace(/[,.]/g, '')) / 100 || 0;
 
-            if (description.length < 3 || !quantity || priceUnit <= 0) {
-                alert('Please fill in service/product details');
-                return;
+
+            const fieldsToValidate = [
+                'validityDate',
+                'budgetNumber',
+                'title',
+                'subtitle',
+                'company',
+                'jobTitle',
+                'location',
+                'phone',
+                'cnpj',
+                'email',
+                'proposalFor',
+                'proposalLocation',
+                'proposalEmail',
+                'proposalPhone',
+                'proposalCPFCNPJ',
+                'item-description',
+                'item-quantity',
+                'item-price-unit'
+            ];
+
+            const validationOptions = {
+                title: {
+                    required: true,
+                    minLength: 3,
+                    customValidation: value => value.startsWith('Orç'),
+                },
+                subtitle: {
+                    required: true,
+                },
+                email: {
+                    required: true,
+                    isEmail: true,
+                },
+                // Campos opcionais
+                'item-description': {
+                    required: true,
+                },
+                'item-quantity': {
+                    required: true,
+                },
+                'item-price-unit': {
+                    required: true,
+                },
+                // Adicione outras opções de validação para outros campos conforme necessário
+            };
+
+
+            const isValid = validateForm(fieldsToValidate, validationOptions);
+            if (isValid) {
+                console.log('Válido')
+                // O formulário é válido, continue com o processamento
+            } else {
+                console.log('invalid')
+                // O formulário é inválido, não envie o formulário e exiba mensagens de erro
             }
+
+            return;
 
             const serviceItem = {
                 description: description,
@@ -517,8 +604,6 @@
             //updateTotal(parseFloat(document.getElementById('discount').value.replace(',', '.')));
             updateTotal(parseFloat(document.getElementById('discount').value.replace(',', '.')));
 
-             // Aplica as validações aos campos do formulário
-        applyValidation(validationOptions);
         });
 
         function updateServiceItemsList() {
@@ -974,7 +1059,7 @@
         });
     </script>
 
-   
+
 
 </body>
 
