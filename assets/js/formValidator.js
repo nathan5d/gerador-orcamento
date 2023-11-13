@@ -1,69 +1,67 @@
+"use strict";
 /**
- * Framework Form Validator v1.0.0
+ * Form Validator Framework v1.0.0
  * (c) 2023 Nathan Amaral
- * Licenciado sob a Licença MIT.
+ * Licensed under the MIT License.
  */
-
 /**
- * Objeto para armazenar mensagens de erro personalizadas.
+ * Object to store custom error messages.
  */
 const errorMessages = {
-    required: 'Este campo é obrigatório.',
-    minLength: 'Este campo deve ter no mínimo {minLength} caracteres.',
-    isEmail: 'Por favor, insira um e-mail válido.',
-    custom: 'Este campo não atende aos requisitos personalizados de validação.'
+    required: 'This field is required.',
+    minLength: 'This field must have at least {minLength} characters.',
+    isEmail: 'Please enter a valid email.',
+    custom: 'This field does not meet custom validation requirements.'
 };
-
 /**
- * Função principal para validação de formulário.
- * @param {Array} fields - Uma lista de IDs de campos de formulário a serem validados.
- * @param {Object} validationOptions - Um objeto que mapeia os IDs dos campos para opções de validação.
- * @returns {boolean} - `true` se o formulário for válido, `false` caso contrário.
+ * Main function for form validation.
+ * @param {string[]} fields - A list of form field IDs to be validated.
+ * @param {Record<string, ValidationOptions>} validationOptions - An object mapping field IDs to validation options.
+ * @returns {boolean} - `true` if the form is valid, `false` otherwise.
  */
 function validateForm(fields, validationOptions) {
     let isValid = true;
-
     fields.forEach(field => {
         const value = document.getElementById(field).value;
         const options = validationOptions[field];
-
         if (options) {
             if (options.required && (value.trim() === '' || value === null)) {
                 isValid = false;
                 displayError(field, errorMessages.required);
-            } else if (options.minLength && value.length < options.minLength) {
+            }
+            else if (options.minLength && value.length < options.minLength) {
                 isValid = false;
-                displayError(field, errorMessages.minLength.replace('{minLength}', options.minLength));
-            } else if (options.customValidation && !options.customValidation(value)) {
+                displayError(field, errorMessages.minLength.replace('{minLength}', options.minLength.toString()));
+            }
+            else if (options.customValidation && !options.customValidation(value)) {
                 isValid = false;
                 displayError(field, errorMessages.custom);
-            } else if (options.isEmail && !isEmail(value)) {
+            }
+            else if (options.isEmail && !isEmail(value)) {
                 isValid = false;
                 displayError(field, errorMessages.isEmail);
-            } else {
-                // Limpa a mensagem de erro se o campo for válido
+            }
+            else {
+                // Clear the error message if the field is valid
                 clearError(field);
             }
         }
     });
-
     return isValid;
 }
-
 /**
- * Função auxiliar para validar e-mail.
- * @param {string} email - A string a ser verificada se é um e-mail válido.
- * @returns {boolean} - `true` se o e-mail for válido, `false` caso contrário.
+ * Helper function to validate email.
+ * @param {string} email - The string to be checked if it's a valid email.
+ * @returns {boolean} - `true` if the email is valid, `false` otherwise.
  */
 function isEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
 }
-
 /**
- * Função para exibir mensagem de erro.
- * @param {string} elementId - O ID do campo de formulário associado ao erro.
- * @param {string} message - A mensagem de erro a ser exibida.
+ * Function to display error message.
+ * @param {string} elementId - The ID of the form field associated with the error.
+ * @param {string} message - The error message to be displayed.
  */
 function displayError(elementId, message) {
     const errorElement = document.getElementById(`${elementId}-error`);
@@ -72,37 +70,11 @@ function displayError(elementId, message) {
         errorElement.style.display = 'block';
     }
 }
-
 /**
- * Função para exibir mensagem de erro geral.
- * @param {string} elementId - O ID do elemento associado à mensagem de erro.
- * @param {string} message - A mensagem de erro a ser exibida.
- */
-function displayGeneralError(elementId, message) {
-    const errorElement = document.getElementById(`${elementId}-error`);
-    if (errorElement) {
-        errorElement.textContent = message;
-        errorElement.style.display = 'block';
-    }
-}
-
-/**
- * Função para limpar mensagem de erro.
- * @param {string} elementId - O ID do campo de formulário associado à mensagem de erro a ser limpa.
+ * Function to clear error message.
+ * @param {string} elementId - The ID of the form field associated with the error to be cleared.
  */
 function clearError(elementId) {
-    const errorElement = document.getElementById(`${elementId}-error`);
-    if (errorElement) {
-        errorElement.textContent = '';
-        errorElement.style.display = 'none';
-    }
-}
-
-/**
- * Função para limpar mensagem de erro geral.
- * @param {string} elementId - O ID do elemento associado à mensagem de erro.
- */
-function clearGeneralError(elementId) {
     const errorElement = document.getElementById(`${elementId}-error`);
     if (errorElement) {
         errorElement.textContent = '';
