@@ -578,15 +578,12 @@
 
 
             const isValid = validateForm(fieldsToValidate, validationOptions);
-            if (isValid) {
-                console.log('Válido')
+            if (!isValid) {
+                return;
                 // O formulário é válido, continue com o processamento
-            } else {
-                console.log('invalid')
-                // O formulário é inválido, não envie o formulário e exiba mensagens de erro
             }
 
-            return;
+           
 
             const serviceItem = {
                 description: description,
