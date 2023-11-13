@@ -59,7 +59,7 @@
                     <h1 class="title pt-5">Informações Gerais</h1>
 
 
-
+/
                     <div class="field">
                         <div class="field-body">
                             <div class="field">
@@ -336,6 +336,9 @@
                         <div class="control">
                             <button type="button" id="export-button" class="button is-success">Gerar
                                 PDF</button>
+                            <!-- Mensagem de erro -->
+                            <p id="export-button-error" class="help is-danger" style="display: none;"></p>
+
                         </div>
 
 
@@ -364,28 +367,7 @@
 
     <script src="assets/js/formValidator.js"></script>
 
-    <script>
-        const fieldsToValidate = [
-            'title',
-            'subtitle',
-            'company',
-            'jobTitle',
-            'location',
-            'phone',
-            'cnpj',
-            'email',
 
-            'item-description',
-            'item-quantity',
-            'item-price-unit'
-        ];
-        const validationOptions = {
-            required: true,
-            minLength: 3,
-            isEmail: true
-            // Adicione outras opções de validação conforme necessário
-        };
-    </script>
     <script>
 
         const budgetNumberInput = document.getElementById('budgetNumber');
@@ -558,6 +540,7 @@
                 },
                 subtitle: {
                     required: true,
+                    minLength: 3
                 },
                 email: {
                     required: true,
@@ -578,28 +561,26 @@
 
 
             const isValid = validateForm(fieldsToValidate, validationOptions);
-            if (!isValid) {
-                return;
-                // O formulário é válido, continue com o processamento
+            if (isValid) {
+
+                const serviceItem = {
+                    description: description,
+                    quantity: quantity,
+                    priceUnit: priceUnit
+                };
+
+                serviceItems.push(serviceItem);
+
+                document.getElementById('item-description').value = '';
+                document.getElementById('item-quantity').value = '';
+                document.getElementById('item-price-unit').value = '';
+
+                updateServiceItemsList();
+                //updateTotal(parseFloat(document.getElementById('discount').value.replace(',', '.')));
+                updateTotal(parseFloat(document.getElementById('discount').value.replace(',', '.')));
+
             }
 
-           
-
-            const serviceItem = {
-                description: description,
-                quantity: quantity,
-                priceUnit: priceUnit
-            };
-
-            serviceItems.push(serviceItem);
-
-            document.getElementById('item-description').value = '';
-            document.getElementById('item-quantity').value = '';
-            document.getElementById('item-price-unit').value = '';
-
-            updateServiceItemsList();
-            //updateTotal(parseFloat(document.getElementById('discount').value.replace(',', '.')));
-            updateTotal(parseFloat(document.getElementById('discount').value.replace(',', '.')));
 
         });
 
@@ -690,9 +671,13 @@
             const formData = new FormData(document.getElementById('pdf-form'));
             const budgetData = Object.fromEntries(formData);
 
-            if (serviceItems.length === 0) {
-                alert('Please add some service/product items');
+            if (serviceItems.length <= 0) {
+                displayGeneralError('export-button', 'Não existe Produtos/Serviços a serem exibidos.');
+
                 return;
+
+            } else {
+                clearGeneralError('export-button');
             }
 
 
