@@ -365,7 +365,7 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/gh/nathan5d/form-validator@main/dist/formValidator.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/nathan5d/form-validator@main/dist/formValidator.js?v=1.0"></script>
 
     <script>
 
@@ -541,9 +541,9 @@
                     required: true,
                     minLength: 3
                 },
-                company:{
-                    required:true,
-                    minLength:2
+                company: {
+                    required: true,
+                    minLength: 2
                 },
                 email: {
                     required: true,
@@ -566,7 +566,7 @@
             // Specify the desired language (e.g., 'en' for English or 'pt' for Portuguese)
             const language = 'pt';
             const translations = {
-              
+
                 pt: {
                     required: 'Este campo é obrigatório.',
                     minLength: 'Este campo deve ter no mínimo {minLength} caracteres.',
@@ -689,12 +689,12 @@
             const budgetData = Object.fromEntries(formData);
 
             if (serviceItems.length <= 0) {
-                displayGeneralError('export-button', 'Não existe Produtos/Serviços a serem exibidos.');
-
+                
+                FormValidator.displayErrorMessage('export-button','Não existe Produtos/Serviços a serem exibidos.');
                 return;
 
             } else {
-                clearGeneralError('export-button');
+                FormValidator.clearError('export-button');
             }
 
 
