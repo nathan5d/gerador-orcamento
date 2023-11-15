@@ -365,8 +365,7 @@
         </div>
     </div>
 
-    <script src="assets/js/form-validator.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/gh/nathan5d/form-validator@main/dist/formValidator.js"></script>
 
     <script>
 
@@ -511,7 +510,7 @@
             const priceUnit = parseFloat(document.getElementById('item-price-unit').value.replace(/[,.]/g, '')) / 100 || 0;
 
 
-            const fieldsToValidate = [
+            const fields = [
                 'validityDate',
                 'budgetNumber',
                 'title',
@@ -542,6 +541,10 @@
                     required: true,
                     minLength: 3
                 },
+                company:{
+                    required:true,
+                    minLength:2
+                },
                 email: {
                     required: true,
                     isEmail: true,
@@ -560,8 +563,22 @@
             };
 
 
-            const isValid = validateForm(fieldsToValidate, validationOptions);
+            // Specify the desired language (e.g., 'en' for English or 'pt' for Portuguese)
+            const language = 'pt';
+            const translations = {
+              
+                pt: {
+                    required: 'Este campo é obrigatório.',
+                    minLength: 'Este campo deve ter no mínimo {minLength} caracteres.',
+                    isEmail: 'Por favor, insira um e-mail válido.',
+                    custom: 'Este campo não atende aos requisitos personalizados de validação.'
+                },
+            };
+
+            const isValid = FormValidator.validateForm(fields, validationOptions, language, translations);
+
             if (isValid) {
+
 
                 const serviceItem = {
                     description: description,
