@@ -365,7 +365,7 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/gh/nathan5d/form-validator@main/dist/formValidator.js?v=1.0"></script>
+    <script src="https://cdn.jsdelivr.net/gh/nathan5d/form-validator@main/dist/formValidator.js"></script>
 
     <script>
 
@@ -690,7 +690,7 @@
 
             if (serviceItems.length <= 0) {
                 
-                FormValidator.displayErrorMessage('export-button','Não existe Produtos/Serviços a serem exibidos.');
+                FormValidator.displayError('export-button','Não existe Produtos/Serviços a serem exibidos.');
                 return;
 
             } else {
