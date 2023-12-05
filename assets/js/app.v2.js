@@ -135,7 +135,7 @@ discountInput.addEventListener('keyup', function () {
     } else {
         discountPercentage = 0;
         updateTotal(parseFloat(discountPercentage));
-
+        
     }
 });
 
@@ -526,40 +526,38 @@ document.getElementById('export-button').addEventListener('click', function () {
 
             {
                 columns: [
-
                     {
                         text: [
-                            { text: 'Data: ' + dataFormatada + '\n', alignment: "left", fontSize: 12 },
+                            { text: budgetData.budgetNumber + '\n', alignment: "center", fontSize: 12 },
+                        ]
+                    },
+                    {
+                        text: [
+                            { text: 'Data: ' + dataFormatada + '\n', alignment: "center", fontSize: 12 },
 
                         ]
                     },
-
                     {
                         text: [
-                            { text: budgetData.budgetNumber + '\n', alignment: "right", fontSize: 12 },
+                            { text: budgetData.validityDate, alignment: "center", fontSize: 12 },
                         ]
-                    },
+                    }
                 ],
             },
             {
-                text: [
-                    { text: budgetData.validityDate, alignment: "left", fontSize: 12 },
-                ]
+                canvas: [
+                    {
+                        type: 'line',
+                        x1: 0,
+                        y1: 10,
+                        x2: 515,
+                        y2: 10,
+                        lineWidth: 2,
+                        lineColor: '#333'
+                    }
+                ],
             },
-            /* {
-                 canvas: [
-                     {
-                         type: 'line',
-                         x1: 0,
-                         y1: 10,
-                         x2: 515,
-                         y2: 10,
-                         lineWidth: 2,
-                         lineColor: '#333'
-                     }
-                 ],
-             },
- */
+
             {
                 text: ' '
             },
@@ -568,7 +566,6 @@ document.getElementById('export-button').addEventListener('click', function () {
                 columns: [
                     {
                         text: [
-                            { text: budgetData.company + '\n', bold: true },
                             { text: budgetData.location + '\n', bold: true },
 
                             { text: "Email: ", bold: true }, budgetData.email + '\n',
@@ -679,14 +676,14 @@ document.getElementById('export-button').addEventListener('click', function () {
         },
         styles: {
             header: {
-                color: "#3e8ed0",
+                color: "#5b71eb",
                 fontSize: 28,
                 bold: true,
                 margin: [0, 10, 0, 10]
             },
 
             subheader: {
-                color: "#3e8ed0",
+                color: "#5b71eb",
                 fontSize: 16,
                 bold: true,
                 margin: [0, 10, 0, 10],
@@ -701,7 +698,7 @@ document.getElementById('export-button').addEventListener('click', function () {
             },
             discount: {
                 fontSize: 12,
-                color: '#48c78e',
+                color: '#7dae4f',
                 bold: true,
             },
             total: {

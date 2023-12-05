@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Gerador de Orçamento</title>
+    <meta name="description" content="Uma ferramenta eficiente para criar orçamentos personalizados com facilidade, permitindo
+    que você forneça propostas profissionais com detalhes precisos e formatação elegante.">
+    <!-- Inclua os arquivos CSS do Semantic UI -->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/pdfmake.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/vfs_fonts.js"></script>
+
+    <!-- Adicione a biblioteca Inputmask -->
+    <script src="https://cdn.jsdelivr.net/npm/inputmask"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+
+
+
+    <script type="module" src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule="" src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons/ionicons.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" />
+
+
+    <link rel="stylesheet" href="../vendor/bulma/css/bulma.min.css">
+
+
+    <link rel="stylesheet" href="../assets/css/style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <div class="container is-mobile">
+
+        <div class="section ">
+            <h1 class="title has-text-centered">Gerador de Orçamentos</h1>
+
+            <div class="notification">
+                Uma ferramenta eficiente para criar orçamentos personalizados com facilidade, permitindo
+                que você forneça propostas profissionais com detalhes precisos e formatação elegante.
+            </div>
+
+
+
+            <form id="pdf-form">
+                <fieldset>
+                    <h1 class="title pt-5">Informações Gerais</h1>
+
+
+
+                    <div class="field">
+                        <div class="field-body">
+                            <div class="field">
+                                <label for="validityDate" class="label">Data de Validade</label>
+                                <div class="control">
+                                    <input class="input" type="date" id="validityDate" name="validityDate">
+                                </div>
+
+                                <p class="help">Deixe em branco caso não deseje exibir.</p>
+                                <!-- Mensagem de erro -->
+                                <p id="validityDate-error" class="help is-danger" style="display: none;"></p>
+
+                            </div>
+                            <div class="field">
+                                <label for="budgetNumber" class="label">Número do Orçamento</label>
+                                <div class="control">
+                                    <input class="input" type="text" id="budgetNumber" name="budgetNumber"
+                                        placeholder="Número do Orçamento">
+                                </div>
+
+                                <p class="help">Deixe em branco caso não deseje exibir.</p>
+                                <!-- Mensagem de erro -->
+                                <p id="budgetNumber-error" class="help is-danger" style="display: none;"></p>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </fieldset>
+                <fieldset>
+                    <h1 class="title pt-5">Dados do Emissor</h1>
+                    <p class="subtitle">
+                        Forneça os dados necessários
+                    </p>
+
+
+                    <div class="field">
+                        <label for="title" class="label">Tipo:</label>
+                        <div class="control">
+                            <input type="text" id="title" name="title" class="input" value="ORÇAMENTO" required>
+                        </div>
+                        <!-- Mensagem de erro -->
+                        <p id="title-error" class="help is-danger" style="display: none;"></p>
+
+                    </div>
+                    <div class="field">
+                        <label for="subtitle" class="label">Descrição:</label>
+                        <div class="control">
+                            <input type="text" id="subtitle" name="subtitle" class="input" required>
+                        </div>
+                        <!-- Mensagem de erro -->
+                        <p id="subtitle-error" class="help is-danger" style="display: none;"></p>
+
+                    </div>
+                    <div class="field">
+                        <label for="company" class="label">Empresa:</label>
+                        <div class="control">
+                            <input type="text" id="company" name="company" class="input" required>
+                        </div>
+                        <!-- Mensagem de erro -->
+                        <p id="company-error" class="help is-danger" style="display: none;"></p>
+
+                    </div>
+                    <div class="field">
+                        <label for="jobTitle" class="label">Cargo:</label>
+                        <div class="control">
+                            <input type="text" id="jobTitle" name="jobTitle" class="input" required>
+                        </div>
+                        <!-- Mensagem de erro -->
+                        <p id="jobTitle-error" class="help is-danger" style="display: none;"></p>
+
+                    </div>
+                    <div class="field">
+                        <label for="location" class="label">Localização:</label>
+                        <div class="control">
+                            <input type="text" id="location" name="location" class="input" required>
+                        </div>
+                        <!-- Mensagem de erro -->
+                        <p id="location-error" class="help is-danger" style="display: none;"></p>
+
+                    </div>
+                    <div class="field">
+                        <label for="email" class="label">E-mail:</label>
+                        <div class="control">
+                            <input type="email" id="email" name="email" class="input" required>
+                        </div>
+                        <!-- Mensagem de erro -->
+                        <p id="email-error" class="help is-danger" style="display: none;"></p>
+
+                    </div>
+                    <div class="field">
+                        <label for="phone" class="label">Telefone:</label>
+                        <div class="control">
+                            <input type="text" id="phone" name="phone" class="input phone" required>
+                        </div>
+                        <!-- Mensagem de erro -->
+                        <p id="phone-error" class="help is-danger" style="display: none;"></p>
+
+                    </div>
+                    <div class="field">
+                        <label for="cnpj" class="label">CPF/CNPJ:</label>
+                        <div class="control">
+                            <input type="text" id="cnpj" name="cnpj" class="input" required>
+                        </div>
+                        <!-- Mensagem de erro -->
+                        <p id="cnpj-error" class="help is-danger" style="display: none;"></p>
+
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <h1 class="title pt-5">Dados do Cliente</h1>
+                    <p class="subtitle">
+                        Forneça os dados do cliente
+                    </p>
+                    <div class="field">
+                        <label for="proposalFor" class="label">Nome da empresa:</label>
+                        <div class="control">
+                            <input type="text" id="proposalFor" name="proposalFor" class="input" required>
+                        </div>
+                        <!-- Mensagem de erro -->
+                        <p id="proposalFor-error" class="help is-danger" style="display: none;"></p>
+
+                    </div>
+
+                    <div class="field">
+                        <label for="proposalLocation" class="label">Localização:</label>
+                        <div class="control">
+                            <input type="text" id="proposalLocation" name="proposalLocation" class="input" required>
+                        </div>
+                        <!-- Mensagem de erro -->
+                        <p id="proposalLocation-error" class="help is-danger" style="display: none;"></p>
+
+                    </div>
+                    <div class="field">
+                        <label for="proposalEmail" class="label">E-mail:</label>
+                        <div class="control">
+                            <input type="email" id="proposalEmail" name="proposalEmail" class="input" required>
+                        </div>
+                        <!-- Mensagem de erro -->
+                        <p id="proposalEmail-error" class="help is-danger" style="display: none;"></p>
+
+                    </div>
+                    <div class="field">
+                        <label for="proposalPhone" class="label">Telefone:</label>
+                        <div class="control">
+                            <input type="text" id="proposalPhone" name="proposalPhone" class="input phone" required>
+                        </div>
+                        <!-- Mensagem de erro -->
+                        <p id="proposalPhone-error" class="help is-danger" style="display: none;"></p>
+
+                    </div>
+                    <div class="field">
+                        <label for="proposalCPFCNPJ" class="label">CPF/CNPJ:</label>
+                        <div class="control">
+                            <input type="text" id="proposalCPFCNPJ" name="proposalCPFCNPJ" class="input cpf-cnpj"
+                                required>
+                        </div>
+                        <!-- Mensagem de erro -->
+                        <p id="proposalCPFCNPJ-error" class="help is-danger" style="display: none;"></p>
+
+
+                    </div>
+
+                </fieldset>
+                <fieldset>
+                    <h1 class="title pt-5">Detalhes do orçamento</h1>
+                    <p class="subtitle">
+                        Forneça os dados necessários
+                    </p>
+                    <div id="items-container">
+
+                        <div class="field">
+                            <label for="item-description" class="label">Descrição</label>
+                            <div class="control">
+                                <textarea name="item-description" class="textarea" id="item-description" cols="30"
+                                    rows="6" class="textarea" placeholder="Descrição"></textarea>
+                            </div>
+                            <!-- Mensagem de erro -->
+                            <p id="item-description-error" class="help is-danger" style="display: none;"></p>
+
+                        </div>
+
+
+                        <div class="field">
+                            <div class="field-body">
+                                <div class="field ">
+                                    <div class="control">
+                                        <label for="item-quantity" class="label">Quantidade</label>
+                                        <input type="number" class="input item-quantity" id="item-quantity"
+                                            placeholder="Quantidade">
+                                    </div>
+                                    <!-- Mensagem de erro -->
+                                    <p id="item-quantity-error" class="help is-danger" style="display: none;"></p>
+
+
+                                </div>
+
+                                <div class="field">
+                                    <label for="item-price-unit" class="label">Preço Unitário</label>
+
+                                    <div class="field is-expanded">
+                                        <div class="field has-addons">
+
+                                            <p class="control">
+                                                <a class="button is-static">
+                                                    R$
+                                                </a>
+                                            </p>
+                                            <p class="control is-expanded">
+                                                <input type="text" class="input item-price-unit" id="item-price-unit"
+                                                    placeholder="Preço unitário (R$)">
+                                            </p>
+                                        </div>
+                                        <!-- Mensagem de erro -->
+                                        <p id="item-price-unit-error" class="help is-danger" style="display: none;"></p>
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="field">
+                            <div class="control">
+                                <button type="button" id="add-item" class="button is-info">Adicionar Item</button>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <h1 class="title pt-5">Outras Informações</h1>
+                    <p class="subtitle">
+                        Informações adicionais
+                    </p>
+
+                    <div class="field">
+                        <div class="control">
+                            <label for="observations" class="label">Observações</label>
+                            <textarea class="textarea name=" id="observations" cols="30" rows="6"></textarea>
+                        </div>
+                        <!-- Mensagem de erro -->
+                        <p id="observations-error" class="help is-danger" style="display: none;"></p>
+
+                    </div>
+
+
+
+                    <div class="field">
+                        <label for="discount" class="label">Desconto</label>
+                        <div class="field is-expanded">
+                            <div class="field has-addons">
+
+                                <p class="control">
+                                    <a class="button is-static">
+                                        R$
+                                    </a>
+                                </p>
+                                <p class="control is-expanded">
+
+                                    <input type="text" class="input discount" id="discount"
+                                        placeholder="Valor do desconto (R$)">
+                                </p>
+                            </div>
+                            <!-- Mensagem de erro -->
+                            <p id="discount-error" class="help is-danger" style="display: none;"></p>
+
+                        </div>
+                    </div>
+
+
+                    <div class="field is-grouped">
+
+                        <div class="control">
+                            <button type="button" id="export-button" class="button is-success">Gerar
+                                PDF</button>
+                            <!-- Mensagem de erro -->
+                            <p id="export-button-error" class="help is-danger" style="display: none;"></p>
+
+                        </div>
+
+
+
+                    </div>
+                </fieldset>
+
+                <!-- Campos para os itens do orçamento serão adicionados dinamicamente -->
+
+
+            </form>
+
+
+
+
+            <div id="items-add" class="content">
+            </div>
+
+            <div class="content">
+                <p>Subtotal: <span id="subtotal">R$ 0,00</span></p>
+                <h4>Total: <span id="total">R$ 0,00</span></h4>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/gh/nathan5d/form-validator@main/dist/formValidator.js"></script>
+
+   <script src="../assets/js/app.js"></script>
+
+</body>
+
+</html>
